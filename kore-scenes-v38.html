@@ -1,0 +1,225 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KORE — One coordinated workflow</title><style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#f3edfb}body{font-family:Inter,Arial,sans-serif}svg.screen{width:100%;height:100%;display:block;background:radial-gradient(ellipse at 65% 22%,#fff,#f4effb 50%,#e9dcf8)}
+#intro{position:fixed;inset:0;z-index:20;background:radial-gradient(ellipse at 60% 20%,#fff,#f4effb 55%,#e9dcf8);opacity:1;transition:opacity 1.2s;pointer-events:none}body.journey #intro{opacity:0;visibility:hidden;transition:opacity 1.2s,visibility 0s 1.2s}
+.intro-logo{opacity:0;transform:translateY(30px) scale(.9);transform-origin:center;transform-box:fill-box}html.started .intro-logo{animation:officialReveal 1.8s cubic-bezier(.16,.8,.2,1) both}
+.intro-product{opacity:0;transform:translateY(35px);transform-box:fill-box;transform-origin:center}html.started .intro-product{animation:officialReveal 1.5s var(--delay) cubic-bezier(.16,.8,.2,1) both}
+.intro-wire{fill:none;stroke-width:2;stroke-dasharray:1000;stroke-dashoffset:1000}html.started .intro-wire{animation:connect 2s 1s ease both}
+.intro-packet{opacity:0}html.started .intro-packet{animation:packetReveal 1s 2s forwards}
+.core-aura{opacity:.7;animation:auraBreath 5s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+.chat-float{animation:chatDrift 4s ease-in-out infinite;animation-delay:var(--delay,0s);transform-box:fill-box;transform-origin:center}
+.node-aura{fill:none;stroke-width:1;stroke-dasharray:14 8 3 12;transform-box:fill-box;transform-origin:center;animation:orbit 24s linear infinite}
+.product-disc{filter:drop-shadow(0 8px 15px #6315e81c)}
+.flow{fill:none;stroke-width:2;stroke-dasharray:6 12;animation:current 2s linear infinite;opacity:.6}
+#world{transform-origin:0 0;transition:transform 2.2s cubic-bezier(.22,.8,.2,1);will-change:transform}
+#journeyCanvas{visibility:hidden}body.journey #journeyCanvas{visibility:visible}
+.person{color:#796983}.person .skin{fill:#bea49a}.person .suit{fill:currentColor}.person .hair{fill:#6e616e}.person .shirt{fill:#fff}.person .tie{fill:#6315e8}
+.walk-arm{transform-origin:center;transform-box:fill-box;animation:walkArm 1.1s ease-in-out infinite alternate}
+.visitor-chat{animation:chatDrift 4s ease-in-out infinite;transform-box:fill-box}
+.generation{opacity:0;transition:opacity .6s}.document-stage .generation{opacity:1}
+#travelDoc{opacity:0;transition:opacity .5s;filter:drop-shadow(0 5px 8px #6315e822)}body.document-stage #travelDoc{opacity:1}
+.engine-glint{animation:glint 3.5s ease-in-out infinite}
+.document-check{opacity:0;transition:opacity .5s}body.validated-stage .document-check{opacity:1}
+.architecture{opacity:0;transition:opacity 1s}body.architecture-stage .architecture{opacity:1}
+.handoff .world-engine{opacity:0}.flight-logo{position:fixed;z-index:30;display:grid;place-items:center;border-radius:50%;pointer-events:none;box-shadow:0 6px 25px #6315e81a;transform-origin:top left}.flight-logo img{width:58%;height:58%;object-fit:contain}
+@keyframes officialReveal{to{opacity:1;transform:translateY(0) scale(1)}}@keyframes connect{to{stroke-dashoffset:0}}@keyframes packetReveal{to{opacity:1}}@keyframes current{to{stroke-dashoffset:-72}}@keyframes orbit{to{transform:rotate(360deg)}}@keyframes chatDrift{50%{transform:translateY(-8px)}}@keyframes auraBreath{50%{opacity:.4;transform:scale(1.06)}}@keyframes walkArm{to{transform:rotate(8deg)}}@keyframes glint{50%{opacity:.35}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important;transition-duration:.01s!important}.intro-product,.intro-logo{opacity:1;transform:none}}
+</style><style>#intro{background:#f7f5fc url("kore-atmosphere-v75.png") center/100% 100% no-repeat;transform-origin:29% 50%;transition:opacity 1.5s ease,transform 1.8s cubic-bezier(.22,.75,.2,1)}.kore-ae-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;pointer-events:none}.kore-ae-video.visible{opacity:1}body.journey #intro{transform:scale(1.85);opacity:0;visibility:hidden;transition:opacity 1.5s ease,transform 1.8s cubic-bezier(.22,.75,.2,1),visibility 0s 1.8s}body:not(.journey) #journeyCanvas{visibility:hidden!important}</style><style>.case-example{position:fixed;inset:0;pointer-events:none;z-index:20;font-family:Inter,Arial,sans-serif;visibility:hidden;opacity:0;transition:opacity .8s ease}.journey:not(.architecture-stage) .case-example{visibility:visible;opacity:1}.case-heading{position:absolute;left:6%;top:7%;max-width:68%;font-size:clamp(27px,3.2vw,48px);font-weight:650;letter-spacing:-.05em;color:#342246}.case-heading small{display:block;font-size:12px;letter-spacing:.06em;color:#947caa;margin-bottom:15px;font-weight:500}.case-detail{position:absolute;right:5%;top:29%;width:clamp(220px,24vw,350px);padding:24px;border:1px solid #d1bce855;border-radius:22px;background:#ffffffeb;box-shadow:0 15px 50px #6315e80a;transition:opacity .35s,transform .55s}.case-detail h2{font-size:20px;line-height:1.2;margin:0 0 18px;color:#6315e8}.case-row{font-size:14px;line-height:1.45;color:#6c577d;margin:14px 0}.case-row strong{display:block;color:#342246;font-size:19px;font-weight:600}.case-note{position:absolute;left:6%;bottom:4%;font-size:11px;color:#917aa6;letter-spacing:.015em}.case-detail.rebuilding{opacity:0;transform:translateY(12px)}@media(max-width:900px){.case-detail{top:auto;bottom:7%;right:4%;padding:16px;width:235px}.case-row{font-size:11px;margin:9px 0}.case-row strong{font-size:15px}.case-heading{font-size:27px}}</style><style>.case-note{padding:8px 12px;border-radius:8px;background:#ffffffe6;color:#6b577b;max-width:85%;font-size:12px}</style><style>
+html,body{background:#f7f5fc url("kore-atmosphere-v75.png") center/cover fixed no-repeat}
+svg.screen{background:transparent}
+#intro{background:transparent;transform-origin:24.5% 51%;transition:none!important}
+body.journey #intro{opacity:1;visibility:visible;transform:none;transition:none!important}
+.kore-ae-video{transition:opacity .65s ease}
+body.kore-diving .case-example{opacity:0!important;visibility:hidden!important}
+#koreZoomVeil{position:fixed;inset:0;width:100%;height:100%;z-index:21;pointer-events:none;display:none}
+#argoAperture .aperture-line{fill:none;stroke:#b48aff;stroke-width:2;opacity:.25}
+#argoAperture .scan-line{animation:scanAperture 3s ease-in-out infinite}
+@keyframes scanAperture{50%{transform:translateY(70px);opacity:.3}}
+</style><style>
+#koreMorphBrand{position:fixed;z-index:24;pointer-events:none;transform-origin:0 0;contain:layout style;}
+body.kore-diving .case-example{opacity:0!important;visibility:hidden!important}
+body.kore-diving #world{transition:none!important}
+body.kore-diving .product-disc{filter:none}
+@media(max-width:700px){body.journey .case-heading{max-width:65%}}
+</style><style>
+#korePaperContinuity{position:fixed;inset:0;z-index:100;pointer-events:none;background:#ede2fd;mix-blend-mode:multiply}
+</style><style>#argoStation{opacity:0;transition:opacity .65s}body.validated-stage #argoStation{opacity:1;transition-delay:.8s}</style><style>
+@font-face{font-family:Sora;src:url('sora-variable.ttf') format('truetype');font-weight:100 800;font-style:normal;font-display:swap}
+.kore-ae-video{transition:none!important;opacity:1}
+.case-example{z-index:101}
+.case-detail{--panel-accent:#6315e8;--panel-ink:#342246;--panel-muted:#6c577d;border-radius:22px;box-shadow:0 18px 48px #0b182514;border-color:color-mix(in srgb,var(--panel-accent) 22%,transparent);font-family:Inter,Arial,sans-serif}
+.case-detail h2{color:var(--panel-accent);font-family:inherit;font-weight:650}
+.case-row{color:var(--panel-muted);font-family:inherit}
+.case-row strong{color:var(--panel-ink);font-family:inherit;line-height:1.4;font-weight:550}
+.case-detail[data-product="allmessage"]{--panel-accent:#308bea;--panel-ink:#333c45;--panel-muted:#71808e;background:#fff;font-family:Sora,sans-serif;border-color:#d6e9ff;border-radius:18px;box-shadow:0 16px 44px #308bea14}
+.case-detail[data-product="allmessage"] h2{font-weight:650;letter-spacing:-.035em}
+.case-detail[data-product="allmessage"] .case-row{font-size:12px}.case-detail[data-product="allmessage"] .case-row strong{font-size:17px}
+.case-detail[data-product="milo"]{--panel-accent:#04282b;--panel-ink:#04282b;--panel-muted:#175e61;background:#00cdcb;border-color:#ffffff80;border-radius:24px;font-family:Inter,ui-sans-serif,'Segoe UI',sans-serif;box-shadow:0 18px 42px #04282b1a}
+.case-detail[data-product="milo"] h2,.case-detail[data-product="milo"] .case-row strong{font-weight:790}
+.case-detail[data-product="argo"],.case-detail[data-product="argo-plus"]{--panel-accent:#1f9d5a;--panel-ink:#e8f1eb;--panel-muted:#819188;background:#050706;border-color:#24342b;border-radius:9px;font-family:'DM Mono','SFMono-Regular',Consolas,'Liberation Mono',monospace;box-shadow:0 18px 42px #05070624}
+.case-detail[data-product="argo-plus"]{background:#0b1710;border-color:#1f9d5a80}
+.case-detail[data-product="argo"] h2,.case-detail[data-product="argo-plus"] h2{font-weight:400;letter-spacing:.08em}
+.case-detail[data-product="argo"] .case-row,.case-detail[data-product="argo-plus"] .case-row{font-size:12px;border-top:1px solid #24342b;padding-top:14px}
+.case-detail[data-product="argo"] .case-row strong,.case-detail[data-product="argo-plus"] .case-row strong{font-size:16px;font-weight:400}
+.case-detail[data-product="kore"]{--panel-accent:#6315e8;--panel-ink:#342246;--panel-muted:#79658f;background:linear-gradient(145deg,#faf6ff,#ede2fd);border-color:#cdb9f0;border-radius:22px}
+</style><style>
+.case-detail{left:4%;right:auto;top:18%;bottom:auto;width:clamp(360px,34vw,600px);padding:clamp(28px,2.5vw,44px)}
+.case-detail h2{font-size:clamp(28px,2.2vw,38px);margin:0 0 26px}
+.case-detail[data-product] .case-row{font-size:clamp(18px,1.3vw,23px);margin:22px 0}
+.case-detail[data-product] .case-row strong{font-size:clamp(24px,1.75vw,31px);line-height:1.35;margin-top:7px}
+.case-product-logo{display:block;width:clamp(180px,16vw,260px);height:auto;max-width:100%;object-fit:contain}
+@media(max-width:900px){.case-detail{left:4%;right:auto;top:10%;bottom:auto;width:34vw;min-width:260px;padding:24px}.case-detail h2{font-size:27px}.case-detail[data-product] .case-row{font-size:17px}.case-detail[data-product] .case-row strong{font-size:23px}}
+@media(max-width:600px){.case-detail{top:4%;left:4%;width:92%;min-width:0;padding:20px}.case-detail h2{font-size:25px;margin-bottom:14px}.case-detail[data-product] .case-row{font-size:15px;margin:12px 0}.case-detail[data-product] .case-row strong{font-size:20px}}
+</style><style>.case-product-logo{width:clamp(220px,19vw,320px);height:clamp(60px,4.6vw,80px);object-fit:contain;object-position:left center}.case-detail[data-product="milo"] .case-product-logo{width:clamp(150px,12vw,210px)}@media(max-width:900px){.case-product-logo{width:210px;height:58px}}</style><style>body:not(.journey) #journeyCanvas *{animation-play-state:paused!important}body.journey #intro *{animation-play-state:paused!important}</style><script>(function(){function silence(el){if(el instanceof HTMLMediaElement){el.defaultMuted=true;if(!el.muted)el.muted=true;if(el.volume!==0)el.volume=0}}document.addEventListener('play',e=>silence(e.target),true);document.addEventListener('volumechange',e=>silence(e.target),true);document.addEventListener('DOMContentLoaded',()=>document.querySelectorAll('video,audio').forEach(silence),{once:true});})();</script></head><body tabindex="-1">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="chat" viewBox="0 0 80 70"><path d="M8 8h64v42H32L15 64V50H8z" fill="white" stroke="currentColor" stroke-width="3"/><path d="M22 22h36M22 34h25" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="document" viewBox="0 0 80 100"><path d="M10 6h40l22 22v64H10zM50 6v23h22" fill="white" stroke="#6315e8" stroke-width="3" stroke-linejoin="round"/><path d="M24 44h34M24 58h34M24 72h22" stroke="#b59ed6" stroke-width="3"/><path class="document-check" d="M42 79l9 8 15-18" fill="none" stroke="#209b68" stroke-width="3"/></symbol>
+<symbol id="person" viewBox="0 0 90 160"><g class="person"><circle class="skin" cx="45" cy="25" r="17"/><path class="hair" d="M27 22a18 18 0 0 1 36 0z"/><path class="suit" d="M27 49h36l11 52-13 3-5-30v75H34V74l-7 31-13-4z"/><path class="shirt" d="M34 49l11 23 11-23z"/><path class="tie" d="M45 57l5 9-5 27-5-27z"/><path d="M39 105v44M51 105v44" stroke="#655970" stroke-width="10" stroke-linecap="round"/><g class="walk-arm"><circle class="skin" cx="21" cy="102" r="6"/><circle class="skin" cx="68" cy="102" r="6"/></g></g></symbol>
+<symbol id="check" viewBox="0 0 60 60"><circle cx="30" cy="30" r="25" fill="white" stroke="#209b68" stroke-width="2"/><path d="M17 30l9 9 18-20" fill="none" stroke="#209b68" stroke-width="3" stroke-linecap="round"/></symbol>
+</defs></svg>
+<section id="intro" aria-label="KORE: one continuous animation"><video class="kore-ae-video visible" muted playsinline preload="auto" src="kore-continuous-4k60-v98-silent-v113.mp4"></video></section>
+<svg id="journeyCanvas" class="screen" viewBox="0 0 1200 720" aria-label="KORE coordinated workflow">
+<defs><mask id="koreDiagonalVoid" maskUnits="userSpaceOnUse" x="0" y="0" width="8500" height="1600"><rect width="8500" height="1600" fill="white"/><path id="officialKoreCut" d="M1456 150L2251 145L150 2259L-2000 4422.30318895764L-2000 3677.448698315467L150 1483Z" transform="translate(1505 340) scale(.48)" fill="black"/></mask></defs><g id="world">
+<g mask="url(#koreDiagonalVoid)"><path id="workflowFloor" d="M0 650H8500V1600H0Z" fill="#6315e8"/><path d="M0 676H8500" fill="none" stroke="#ad7bff" stroke-width="12" opacity=".4"/></g>
+
+<path d="M100 649H8500" mask="url(#koreDiagonalVoid)" stroke="#9c73c7" stroke-width="2" opacity=".4"/>
+<g id="visitors"> <use href="#person" x="240" y="492" width="90" height="160"/><use href="#person" x="335" y="498" width="86" height="153"/><use href="#person" x="420" y="485" width="92" height="165"/>
+<g style="color:#328cf3"><use class="visitor-chat" href="#chat" x="285" y="452" width="62" height="53"/><use class="visitor-chat" href="#chat" x="430" y="423" width="58" height="52"/></g></g>
+<path class="flow" stroke="#328cf3" d="M485 495Q590 420 705 505"/><path class="flow" stroke="#00cdcb" d="M795 505H1130"/>
+<g style="color:#328cf3"><use href="#chat" x="0" y="0" width="38" height="34"><animateMotion path="M485 495Q590 420 705 505" dur="3s" repeatCount="indefinite"/></use></g>
+<g class="world-engine"><circle class="product-disc" cx="750" cy="505" r="65" fill="white" stroke="#328cf3" stroke-width="2"/><circle class="node-aura" cx="750" cy="505" r="76" stroke="#328cf355"/><image href="allmessage-a.svg" x="715" y="470" width="70" height="70"/></g>
+<g class="world-engine"><circle class="product-disc" cx="1200" cy="505" r="65" fill="#00cdcb"/><circle class="node-aura" cx="1200" cy="505" r="76" stroke="#00cdcb66"/><image href="milo-m.svg" x="1165" y="470" width="70" height="70"/><g class="generation"><path class="flow" stroke="#00aaa7" d="M1248 550Q1310 550 1345 587"/><use href="#chat" x="1175" y="393" width="55" height="50" style="color:#00aaa7"/></g></g>
+<g style="color:#00aaa7"><use href="#chat" x="-17" y="-15" width="34" height="30"><animateMotion path="M800 505H1140" dur="3.8s" repeatCount="indefinite"/></use></g>
+<g id="argoAperture" aria-label="ARGO inside KORE's official diagonal separation"><g id="elevator"><image href="argo-wordmark.svg" x="1930" y="684" width="110" height="27"/><rect x="1925" y="724" width="120" height="175" rx="20" fill="#ffffffa8" stroke="#d1bce8" stroke-width="2"/><circle cx="1985" cy="775" r="35" fill="#050706"/><image href="argo-a.svg" x="1963" y="753" width="44" height="44"/><path class="scan-line" d="M1935 818h100" stroke="#1f9d5a" stroke-width="2"/><path d="M1938 882h94" stroke="#d1bce8" stroke-width="2"/></g></g>
+<g id="argoStation" transform="translate(0 230)"><image href="argo-plus-wordmark-v87.svg" x="2265" y="168" width="200" height="40"/><rect x="2240" y="230" width="250" height="184" rx="25" fill="#fbf8ff" stroke="#d1bce8" stroke-width="3"/><circle cx="2365" cy="300" r="45" fill="#050706"/><image href="argo-plus-compact-v87.svg" x="2330" y="276" width="70" height="47"/><path d="M2270 377h190" stroke="#209b68" stroke-width="2"/><circle class="engine-glint" cx="2457" cy="250" r="5" fill="#209b68"/></g>
+<g id="argoPlus" transform="translate(0 230)"><rect x="2920" y="230" width="250" height="184" rx="25" fill="#fbf8ff" stroke="#d1bce8" stroke-width="3"/><circle cx="3045" cy="300" r="45" fill="#050706"/><image href="kore-k.svg" x="3020" y="275" width="50" height="50"/><use href="#check" x="3140" y="345" width="40" height="40"/></g>
+<path transform="translate(0 230)" d="M3650 419V215" stroke="#796983" stroke-width="4"/><path transform="translate(0 230)" d="M3650 215l98 30-98 35z" fill="#6315e8"/>
+<g id="recipient" transform="translate(0 236)"><g id="adviserWalker" transform="translate(3560 260)" aria-label="Adviser walking with grounded alternating steps"><ellipse cx="0" cy="154" rx="25" ry="2" fill="#342246" opacity=".12"/><g fill="none" stroke="#655970" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><path id="adviserLegBack" d="M6 103L6 128L6 151"/><path id="adviserLegFront" d="M-6 103L-6 128L-6 151"/></g><g fill="none" stroke="#51465c" stroke-width="6" stroke-linecap="round"><path id="adviserFootBack" d="M2 151H12"/><path id="adviserFootFront" d="M-10 151H0"/></g><g id="adviserTorso"><circle cx="0" cy="25" r="17" fill="#bea49a"/><path d="M-18 22a18 18 0 0 1 36 0z" fill="#6e616e"/><path d="M-18 49H18L13 105H-13Z" fill="#796983"/><path d="M-11 49L0 72L11 49Z" fill="white"/><path d="M0 57L5 66L0 93L-5 66Z" fill="#6315e8"/><path id="adviserArm" d="M-16 55L-23 79L-26 101" fill="none" stroke="#796983" stroke-width="11" stroke-linecap="round"/><circle id="adviserHand" cx="-26" cy="101" r="6" fill="#bea49a"/><path d="M16 55L23 79L23 100" fill="none" stroke="#796983" stroke-width="11" stroke-linecap="round"/><circle cx="23" cy="100" r="6" fill="#bea49a"/></g></g><rect x="3590" y="350" width="67" height="57" rx="9" fill="#b794dc" stroke="#6315e8" stroke-width="2"/><path d="M3610 350v-17h26v17" fill="none" stroke="#6315e8" stroke-width="3"/></g>
+<g class="architecture"></g>
+<g id="travelDoc"><use href="#document" x="-27" y="-35" width="54" height="70"/></g>
+</g></svg>
+<section class="case-example" aria-label="Illustrative salary-backed loan workflow"><article class="case-detail" id="caseDetail"></article></section><script>
+let step=0,busy=false,docAnimation=null,walkAnimation=null,docWalk=null,docWalkTimer=null,adviserGaitFrame=0;
+const world=document.getElementById('world'),doc=document.getElementById('travelDoc'),intro=document.getElementById('intro');
+const views=[null,[800,550,.72],[1200,520,1],[1985,820,.94],[2365,565,1.05],[3045,565,1.05],[3580,555,1],[4400,345,.95]];
+let introPhase=0,phaseRevision=0,koreStarted=false;
+const aeVideos=[...document.querySelectorAll('.kore-ae-video')];
+function aeMediaReady(video){
+ if(video.readyState>=2)return Promise.resolve();
+ return new Promise((resolve,reject)=>{video.addEventListener('loadeddata',resolve,{once:true});video.addEventListener('error',()=>reject(new Error('KORE video could not load')),{once:true});video.load()});
+}
+async function showAEPhase(n,hold=false){
+ const revision=++phaseRevision;introPhase=hold?2:0;busy=true;
+ const video=aeVideos[0];video.pause();await aeMediaReady(video);
+ const target=hold?Math.max(0,video.duration-1/60):0;
+ if(Math.abs(video.currentTime-target)>.008){await new Promise(resolve=>{video.addEventListener('seeked',resolve,{once:true});video.currentTime=target})}
+ if(revision!==phaseRevision||step!==0)return;
+ video.classList.add('visible');
+ if(hold||!koreStarted){if(hold)prepareKoreMorph();busy=false;return}
+ video.onended=()=>{if(revision!==phaseRevision||step!==0)return;introPhase=2;prepareKoreMorph();busy=false};
+ await video.play().catch(()=>{busy=false});
+}
+function pauseAE(){phaseRevision++;aeVideos.forEach(v=>{v.pause();v.onended=null})}
+function beginKoreAE(){if(koreStarted)return;koreStarted=true;document.documentElement.classList.add('started');showAEPhase(0)}
+
+const locations=[null,null,[1345,590],[1985,857],[2365,607],[3045,607],[3585,563],[3585,563]];
+const caseStages=[null,['One request. Every channel.','AllMessage','WhatsApp message','“I’d like a salary-backed loan.”','Customer','Emma Carter'],['A conversation becomes a case.','MILO','Document request','“Please send your payslip and ID.”','Files received','Payslip + identity document'],['Documents become usable data.','ARGO','Employer','Northstar Ltd.','Net monthly salary','€1,800 · extracted from payslip'],['The case gets checked.','ARGO+','Identity details','Matched across documents','Employer information','Flagged for adviser review'],['One case. Ready for review.','KORE','Loan requested','€15,000','Case package','Conversation + documents + checks'],['Your adviser takes it from here.','Human review','Customer hand-off','One complete case file','Next step','Adviser review, then lender assessment']];
+let caseRevision=0;function showCase(){const revision=++caseRevision,data=caseStages[step],panel=document.getElementById('caseDetail');if(!data)return;panel.classList.add('rebuilding');setTimeout(()=>{if(revision!==caseRevision)return;panel.dataset.product=({1:'allmessage',2:'milo',3:'argo',4:'argo-plus',5:'kore',6:'kore'})[step]||'kore';const productLogo={1:'../one-tech-logo-kit-svg/allmessage-wordmark.svg',2:'../one-tech-logo-kit-svg/milo-logo.svg',3:'argo-wordmark.svg',4:'argo-plus-wordmark-v87.svg',5:'../kore-ae-v75-assets/kore-official.png'}[step];const heading=productLogo?'<img class="case-product-logo" src="'+productLogo+'" alt="'+data[1]+'">':data[1];panel.innerHTML='<h2>'+heading+'</h2><div class="case-row">'+data[2]+'<strong>'+data[3]+'</strong></div><div class="case-row">'+data[4]+'<strong>'+data[5]+'</strong></div>';panel.classList.remove('rebuilding')},220)}
+
+// The planted foot counteracts forward translation exactly. Only the swing foot lifts.
+const gaitPeriod=.9,gaitSpeed=580/8.5,stance=.56,halfStride=gaitSpeed*gaitPeriod*stance/2;
+function poseAdviser(seconds){
+ const moving=seconds!==null,phase=moving?(seconds/gaitPeriod)%1:0,bob=moving?-1.2*(1-Math.cos(phase*Math.PI*4))/2:0;
+ document.getElementById('adviserTorso').setAttribute('transform','translate(0 '+bob+')');
+ for(const [side,hip,offset] of [['Back',6,.5],['Front',-6,0]]){
+  const p=(phase+offset)%1;let fx=hip,fy=151;
+  if(moving){if(p<stance){fx=halfStride-gaitSpeed*gaitPeriod*p}else{const s=(p-stance)/(1-stance),ease=s*s*(3-2*s);fx=-halfStride+2*halfStride*ease;fy=151-Math.sin(Math.PI*s)*12}}
+  const hy=103+bob,dx=fx-hip,dy=fy-hy,d=Math.hypot(dx,dy),bend=Math.sqrt(Math.max(0,27*27-d*d/4)),kx=(hip+fx)/2+dy/d*bend,ky=(hy+fy)/2-dx/d*bend;
+  document.getElementById('adviserLeg'+side).setAttribute('d','M'+hip+' '+hy+'L'+kx+' '+ky+'L'+fx+' '+fy);
+  document.getElementById('adviserFoot'+side).setAttribute('d','M'+(fx-4)+' '+fy+'H'+(fx+6));
+ }
+ const swing=moving?Math.sin(phase*Math.PI*2)*9:0;
+ document.getElementById('adviserArm').setAttribute('d','M-16 55L'+(-23+swing*.4)+' 79L'+(-26+swing)+' 101');
+ document.getElementById('adviserHand').setAttribute('cx',-26+swing);
+}
+function startAdviserGait(animation){
+ function tick(){const elapsed=(Number(animation.currentTime)||0)-2400;if(step!==6)return;
+  if(elapsed<0)poseAdviser(null);else if(elapsed>=8500){poseAdviser(null);adviserGaitFrame=0;return}else poseAdviser(elapsed/1000);
+  adviserGaitFrame=requestAnimationFrame(tick);
+ }adviserGaitFrame=requestAnimationFrame(tick);
+}
+
+function render(previous=step){showCase();
+clearTimeout(docWalkTimer);docWalk?.cancel();cancelAnimationFrame(adviserGaitFrame);adviserGaitFrame=0;poseAdviser(null);
+document.body.classList.toggle('journey',step>0);document.body.classList.toggle('document-stage',step>=2);document.body.classList.toggle('architecture-stage',step===7);
+document.body.classList.toggle('validated-stage',step>=4);
+if(step===0){docAnimation?.cancel();walkAnimation?.cancel();doc.style.opacity='0';return}
+const [x,y,scale]=views[step];world.style.transform='translate('+(840-x*scale)+'px,'+(430-y*scale)+'px) scale('+scale+')';
+doc.style.removeProperty('opacity');docAnimation?.cancel();
+if(step>=2){const end=locations[step],start=locations[Math.max(2,previous)]||end;const frames=[{transform:'translate('+start[0]+'px,'+start[1]+'px) scale('+(previous<2?.05:1)+')'},{transform:'translate('+end[0]+'px,'+end[1]+'px) scale(1)'}];docAnimation=doc.animate(frames,{duration:step===3?2800:2100,easing:'cubic-bezier(.22,.75,.2,1)',fill:'forwards'})}
+walkAnimation?.cancel();if(step===6){walkAnimation=document.getElementById('recipient').animate([{transform:'translate(0px,236px)'},{transform:'translate(580px,236px)'}],{duration:8500,delay:2400,fill:'forwards',easing:'linear'});startAdviserGait(walkAnimation);docWalkTimer=setTimeout(()=>{if(step===6)docWalk=doc.animate([{transform:'translate(3585px,563px)'},{transform:'translate(4165px,563px)'}],{duration:8500,fill:'forwards',easing:'linear'})},2400)}
+}
+let koreMorphCache=null;
+function prepareKoreMorph(){
+ if(koreMorphCache)return koreMorphCache;
+ const video=aeVideos[0];if(video.readyState<2)return null;
+ const frame=document.createElement('canvas'),ratio=Math.min(1,1920/video.videoWidth);
+ frame.width=Math.round(video.videoWidth*ratio);frame.height=Math.round(video.videoHeight*ratio);
+ const ctx=frame.getContext('2d',{willReadFrequently:true});ctx.drawImage(video,0,0,frame.width,frame.height);
+ const pixels=ctx.getImageData(0,0,frame.width,frame.height),d=pixels.data;
+ let minX=frame.width,minY=frame.height,maxX=0,maxY=0;
+ // Extract the already-rendered logo once. No live masks or per-frame drawing.
+ for(let y=0;y<frame.height;y++)for(let x=0;x<frame.width;x++){
+  const i=(y*frame.width+x)*4,r=d[i],g=d[i+1],b=d[i+2];
+  const eligible=b-r>25||Math.max(r,g,b)<180;
+  const alpha=eligible?Math.max(0,Math.min(1,(205-g)/70,(200-r)/60)):0;
+  d[i+3]=Math.round(alpha*255);
+  if(alpha>.5){minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y)}
+ }
+ if(maxX<=minX)return null;
+ ctx.putImageData(pixels,0,0);minX=Math.max(0,minX-3);minY=Math.max(0,minY-3);maxX=Math.min(frame.width,maxX+4);maxY=Math.min(frame.height,maxY+4);
+ const logo=document.createElement('canvas');logo.width=maxX-minX;logo.height=maxY-minY;
+ logo.getContext('2d').drawImage(frame,minX,minY,logo.width,logo.height,0,0,logo.width,logo.height);
+ koreMorphCache={logo,x:minX,y:minY,frameWidth:frame.width,frameHeight:frame.height};
+ frame.width=frame.height=1;return koreMorphCache;
+}
+async function enterWorkflow(){
+ pauseAE();busy=true;document.body.classList.add('kore-diving');
+ const cached=prepareKoreMorph(),screen=document.getElementById('journeyCanvas');
+ const timings={duration:2100,easing:'cubic-bezier(.22,.75,.2,1)',fill:'forwards'},animations=[];
+ step=1;render(0);
+ // Set the final camera once, before the first visible funnel frame.
+ world.style.transition='none';world.getBoundingClientRect();
+ const destinationWidth=Math.min(230,innerWidth*.20),destinationX=innerWidth*.94-destinationWidth,destinationY=innerHeight*.07;
+ if(cached){
+  const factor=Math.max(innerWidth/cached.frameWidth,innerHeight/cached.frameHeight),left=(innerWidth-cached.frameWidth*factor)/2,top=(innerHeight-cached.frameHeight*factor)/2;
+  const brand=cached.logo;brand.id='koreMorphBrand';document.body.appendChild(brand);
+  Object.assign(brand.style,{left:'0px',top:'0px',width:brand.width+'px',height:brand.height+'px',willChange:'transform,opacity'});
+  const sx=left+cached.x*factor,sy=top+cached.y*factor,scale=destinationWidth/brand.width;
+  animations.push(brand.animate([
+   {transform:'translate('+sx+'px,'+sy+'px) scale('+factor+')',opacity:0},
+   {offset:.12,transform:'translate('+sx+'px,'+sy+'px) scale('+factor+')',opacity:1},
+   {transform:'translate('+destinationX+'px,'+destinationY+'px) scale('+scale+')',opacity:1}
+  ],timings));
+ }
+ // The background stays put; only the brand moves, while the workflow assembles.
+ animations.push(intro.animate([{opacity:1},{offset:.28,opacity:0},{opacity:0}],{...timings,duration:2100}));
+ animations.push(screen.animate([{opacity:0,transform:'translateY(20px)'},{offset:.28,opacity:0,transform:'translateY(20px)'},{opacity:1,transform:'translateY(0)'}],timings));
+ const engines=[...document.querySelectorAll('#world>.world-engine')];
+ engines.forEach((engine,i)=>{
+  engine.style.transformBox='fill-box';engine.style.transformOrigin='center';
+  animations.push(engine.animate([{opacity:0,transform:'scale(.78)'},{opacity:1,transform:'scale(1)'}],{duration:950,delay:750+i*160,easing:'cubic-bezier(.22,.75,.2,1)',fill:'both'}));
+ });
+ const flows=[...document.querySelectorAll('#world>path.flow')];
+ flows.forEach((path,i)=>animations.push(path.animate([{opacity:0},{opacity:.6}],{duration:700,delay:1150+i*150,fill:'both'})));
+ await Promise.all(animations.map(a=>a.finished));
+ if(cached){const brand=cached.logo,scale=destinationWidth/brand.width;brand.style.transform='translate('+destinationX+'px,'+destinationY+'px) scale('+scale+')';brand.style.opacity='1';brand.style.willChange='auto';}
+ intro.style.visibility='hidden';world.style.transition='';document.body.classList.remove('kore-diving');
+ animations.forEach(a=>a.cancel());busy=false;
+}
+function advance(){if(busy)return;if(step===0){if(introPhase<2)showAEPhase(introPhase+1);else enterWorkflow();return}if(step===6){parent.postMessage({type:'kore-complete'},'*');return}const previous=step;step++;render(previous);busy=true;setTimeout(()=>busy=false,step===3?2850:2250)}
+function retreat(){if(busy)return;if(step===0){parent.postMessage({type:'kore-exit'},'*');return}const previous=step;step--;render(previous);if(step===0){document.getElementById('koreMorphBrand')?.remove();intro.getAnimations().forEach(a=>a.cancel());intro.style.visibility='visible';intro.style.transform='none';showAEPhase(2,true);return}busy=true;setTimeout(()=>busy=false,step===0?1200:2250)}
+addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();e.stopImmediatePropagation();if(!e.repeat)(e.key==='ArrowRight'?advance:retreat)()}},{capture:true});
+addEventListener('message',e=>{if(e.source!==parent)return;if(e.data?.type==='presentation-next')advance();if(e.data?.type==='presentation-back')retreat();if(e.data?.type==='kore-start')beginKoreAE()});
+addEventListener('wheel',e=>e.preventDefault(),{passive:false});window.animationState=()=>({stage:step===0?introPhase:step+2,workflowStep:step,phase:introPhase,source:step===0?'after-effects-4k-60':'native-svg-funnel',running:step===0&&!aeVideos[0].paused,currentTime:step===0?aeVideos[0].currentTime:null,drawError:null});
+Promise.all([aeMediaReady(aeVideos[0]),document.fonts.ready,...[...document.querySelectorAll('image')].map(el=>{const image=new Image();image.src=el.getAttribute('href');return image.decode().catch(()=>{})})]).then(()=>{parent.postMessage({type:'kore-ready'},'*');if(parent===window)beginKoreAE()});
+</script><div id="korePaperContinuity" aria-hidden="true"></div></body></html>
