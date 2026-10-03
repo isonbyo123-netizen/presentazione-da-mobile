@@ -10,20 +10,20 @@ button.primary{background:#6f4dff;color:white;border-color:#6f4dff}button:disabl
 button:focus-visible{outline:3px solid #00bebb;outline-offset:2px}
 main{min-width:0;min-height:0;display:grid;place-items:center;overflow:hidden;contain:strict;padding:16px max(16px,env(safe-area-inset-right,0px)) 16px 16px}
 #presentationSurface{position:relative;overflow:hidden;contain:strict;background:white;border-radius:10px;box-shadow:0 3px 18px #34224612}
-iframe{position:absolute;top:0;left:0;display:block;width:1440px;height:900px;max-width:none;min-width:0;border:0;transform-origin:0 0}
+#presentationCanvas{position:absolute;left:0;top:0;width:1440px;height:900px;transform-origin:0 0}iframe{display:block;width:1440px;min-width:1440px;max-width:1440px;height:900px;min-height:900px;max-height:900px;border:0}
 </style></head>
 <body>
 <aside><nav aria-label="Controlli presentazione"><button id="prev" aria-label="Indietro" disabled>←</button><button id="next" class="primary" aria-label="Avanti" disabled>→</button><button id="restart" aria-label="Ricomincia" disabled>↻</button></nav></aside>
-<main id="screen"><div id="presentationSurface"><iframe id="deck" width="1440" height="900" scrolling="no" src="presentazione.html" title="Presentazione One Tech" allow="autoplay; fullscreen" allowfullscreen></iframe></div></main>
+<main id="screen"><div id="presentationSurface"><div id="presentationCanvas"><iframe id="deck" width="1440" height="900" scrolling="no" src="presentazione.html" title="Presentazione One Tech" allow="autoplay; fullscreen" allowfullscreen></iframe></div></div></main>
 <script>
-const frame=document.getElementById('deck'),screen=document.getElementById('screen'),surface=document.getElementById('presentationSurface');
+const frame=document.getElementById('deck'),screen=document.getElementById('screen'),surface=document.getElementById('presentationSurface'),canvas=document.getElementById('presentationCanvas');
 function fit(){
  const r=screen.getBoundingClientRect(),css=getComputedStyle(screen),w=r.width-parseFloat(css.paddingLeft)-parseFloat(css.paddingRight),h=r.height-parseFloat(css.paddingTop)-parseFloat(css.paddingBottom);
  if(w<=0||h<=0)return;
  const scale=Math.min(w/1440,h/900,.5);
  surface.style.width=(1440*scale)+'px';surface.style.height=(900*scale)+'px';
- // Zoom changes the iframe's layout size, without a transformed outer frame.
- frame.style.zoom=String(scale);
+ // Keep the frame at its design size; scale only the surrounding canvas.
+ canvas.style.transform='scale('+scale+')';
 }
 function viewport(){
  const vv=window.visualViewport,w=vv?.width||document.documentElement.clientWidth,h=vv?.height||innerHeight;
