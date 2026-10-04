@@ -49,3 +49,5 @@ body.architecture-active #architectureInteractive{visibility:visible;opacity:1;p
 #architectureInteractive[data-layout=crm]{background:radial-gradient(ellipse at 74% 57%,#e6edf9,#faf9ff 74%)}#architectureInteractive[data-layout=security]{background:radial-gradient(ellipse at 53% 60%,#e9e0f8,#faf9ff 73%)}
 @keyframes axArtEntrance{from{opacity:0;transform:translateY(30px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes axArtDrift{0%,100%{transform:translateY(0) rotate(-.35deg)}50%{transform:translateY(-9px) rotate(.35deg)}}
 @media(prefers-reduced-motion:reduce){.ax-artwork,.ax-artwork img{animation:none}}
+
+[data-layout=journey] .ax-artwork{left:354px;top:0;width:540px}[data-layout=journey] .ax-diagram,[data-layout=journey] .ax-node .ax-icon{display:none}#architectureInteractive[data-layout=journey]{--ax-accent:#c4fff0;background:radial-gradient(ellipse at 50% 56%,#473363 0,#241737 53%,#170f28 100%)}#architectureInteractive[data-layout=journey] #axTitle,#architectureInteractive[data-layout=journey] .ax-node h2{color:#fcf8ff}#architectureInteractive[data-layout=journey] .ax-node p{color:#d8cbe9}
