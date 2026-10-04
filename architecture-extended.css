@@ -57,3 +57,27 @@ body.architecture-active #architectureInteractive{visibility:visible;opacity:1;p
 
 
 .ax-score{font-size:60px;letter-spacing:0}
+
+/* Colored light belongs to graphics; title and narration remain on white. */
+.ax-flow-aura{stroke-width:30;opacity:.29}
+.ax-flow-strand{stroke-width:1.8;opacity:.48}
+.ax-flow-light{stroke-width:2.6;opacity:.86;filter:drop-shadow(0 0 3px currentColor)}
+.ax-traveller{filter:drop-shadow(0 0 4px color-mix(in srgb,currentColor 46%,transparent))}
+.ax-traveller rect{stroke-width:1.7}
+.ax-disc-aura{opacity:.13;stroke:none;filter:blur(12px)}
+.ax-disc{stroke-opacity:.3;filter:drop-shadow(0 14px 20px #6246a31a)}
+.ax-disc-ring{stroke-opacity:.5;stroke-width:1.8;filter:drop-shadow(0 0 4px color-mix(in srgb,currentColor 38%,transparent))}
+.ax-disc-reflection{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;opacity:.95}
+.ax-agent-halo{fill:none;stroke:url(#axAgentGlow);stroke-width:13;opacity:.22;filter:blur(8px)}
+.ax-agent circle{filter:drop-shadow(0 0 5px color-mix(in srgb,currentColor 48%,transparent))}
+.ax-orbit-comet{stroke-width:2;opacity:.65;filter:drop-shadow(0 0 4px #9671e066)}
+.ax-portal rect:first-child{filter:drop-shadow(0 0 17px #8e62fa30) drop-shadow(0 15px 20px #6246a314)}
+.ax-tool-portal rect:first-child{filter:drop-shadow(0 0 17px #00cdcb30) drop-shadow(0 15px 20px #437c9214)}
+.ax-data-paper rect{stroke-opacity:.55;filter:drop-shadow(0 0 8px color-mix(in srgb,currentColor 18%,transparent)) drop-shadow(0 10px 15px #8260b514)}
+.ax-company{filter:drop-shadow(0 0 9px color-mix(in srgb,currentColor 16%,transparent)) drop-shadow(0 10px 14px #8260b510)}
+.ax-scan-beam{filter:drop-shadow(0 0 6px #00bdc077)}
+.ax-cloud-disc{filter:drop-shadow(0 0 17px #1da6e724)}
+.ax-gauge-progress{filter:drop-shadow(0 0 6px #8d58ed4d)}
+.ax-seal circle{filter:drop-shadow(0 0 8px #22ae7b30)}
+.ax-map-pin{filter:drop-shadow(0 0 7px #308bea38)}
+.ax-storage-led{filter:drop-shadow(0 0 5px #00c8bd99)}

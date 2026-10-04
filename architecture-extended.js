@@ -27,7 +27,7 @@ const icon=n=>'<svg viewBox="0 0 96 96" aria-hidden="true">'+icons[n]+'</svg>';
 
  const tones=['#6f4dff','#00bfc2','#308bea','#23a777'];
  const glyph=(name,x,y,w=96)=>'<svg x="'+(x-w/2)+'" y="'+(y-w/2)+'" width="'+w+'" height="'+w+'" viewBox="0 0 96 96" class="ax-hero-glyph">'+icons[name]+'</svg>';
- const defs='<defs><filter id="axFog" x="-30%" y="-50%" width="160%" height="200%"><feGaussianBlur stdDeviation="7"/></filter><linearGradient id="axGlass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".5" stop-color="#f5f0ff"/><stop offset="1" stop-color="#dcefff"/></linearGradient><linearGradient id="axInk" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#976aff"/><stop offset="1" stop-color="#5b2bd7"/></linearGradient></defs>';
+ const defs='<defs><linearGradient id="axAgentGlow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#00bfc2"/><stop offset=".5" stop-color="#308bea"/><stop offset="1" stop-color="#6f4dff"/></linearGradient><filter id="axFog" x="-30%" y="-50%" width="160%" height="200%"><feGaussianBlur stdDeviation="7"/></filter><linearGradient id="axGlass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".5" stop-color="#f5f0ff"/><stop offset="1" stop-color="#dcefff"/></linearGradient><linearGradient id="axInk" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#976aff"/><stop offset="1" stop-color="#5b2bd7"/></linearGradient></defs>';
  function stream(x,y,ex,ey,n){
   const color=tones[(n-1)%4],mx=(x+ex)/2,my=(y+ey)/2;
   const d='M'+x+' '+y+' C'+mx+' '+(y-70)+' '+mx+' '+(ey+70)+' '+ex+' '+ey;
@@ -59,7 +59,7 @@ const icon=n=>'<svg viewBox="0 0 96 96" aria-hidden="true">'+icons[n]+'</svg>';
  const shown=(n,g,cls='')=>'<g class="ax-build '+cls+'" data-reveal="'+n+'">'+g+'</g>';
  const atHero=(type,x,y,scale=1)=>'<g transform="translate('+x+' '+y+') scale('+scale+') translate(-624 -215)">'+hero(type)+'</g>';
  function disc(x,y,r,ic,n,col=tones[n-1]){
-  return shown(n,'<g class="ax-float-disc" style="color:'+col+'"><circle class="ax-disc-aura" cx="'+x+'" cy="'+y+'" r="'+(r+14)+'"/><circle class="ax-disc" cx="'+x+'" cy="'+y+'" r="'+r+'"/><circle class="ax-disc-ring" cx="'+x+'" cy="'+y+'" r="'+(r+7)+'"/><g class="ax-ink-glyph">'+glyph(ic,x,y,r*1.13)+'</g></g>');
+  return shown(n,'<g class="ax-float-disc" style="color:'+col+'"><circle class="ax-disc-aura" cx="'+x+'" cy="'+y+'" r="'+(r+14)+'"/><circle class="ax-disc" cx="'+x+'" cy="'+y+'" r="'+r+'"/><circle class="ax-disc-ring" cx="'+x+'" cy="'+y+'" r="'+(r+7)+'"/><path class="ax-disc-reflection" d="M'+(x-r*.64)+' '+(y-r*.65)+'Q'+x+' '+(y-r*1.02)+' '+(x+r*.5)+' '+(y-r*.77)+'"/><g class="ax-ink-glyph">'+glyph(ic,x,y,r*1.13)+'</g></g>');
  }
  function paper(x,y,w,n,col=tones[(n-1)%4]){
   return shown(n,'<g class="ax-data-paper" style="color:'+col+'"><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+w*1.3+'" rx="14"/><path d="M'+(x+w*.2)+' '+(y+w*.3)+'H'+(x+w*.8)+'M'+(x+w*.2)+' '+(y+w*.52)+'H'+(x+w*.8)+'M'+(x+w*.2)+' '+(y+w*.74)+'H'+(x+w*.6)+'"/></g>');
@@ -88,7 +88,7 @@ const icon=n=>'<svg viewBox="0 0 96 96" aria-hidden="true">'+icons[n]+'</svg>';
    g+=shown(1,'<g class="ax-portal"><rect x="245" y="40" width="220" height="285" rx="110"/><rect x="264" y="59" width="182" height="247" rx="91"/></g><g class="ax-ink-glyph">'+glyph('brain',355,180,113)+'</g>');
    g+=shown(2,'<g class="ax-portal ax-tool-portal"><rect x="785" y="40" width="220" height="285" rx="110"/><rect x="804" y="59" width="182" height="247" rx="91"/></g><g class="ax-ink-glyph">'+glyph('sources',895,180,113)+'</g>')+wave('M477 180C553 115 707 245 773 180',2);
   }else if(type==='orbit'){
-   g+=shown(1,atHero('orbit',624,185,.85))+orbit(624,185,173,173);
+   g+=shown(1,'<circle class="ax-agent-halo" cx="624" cy="185" r="141.1"/>'+atHero('orbit',624,185,.85))+orbit(624,185,173,173);
    [[320,90,'scout'],[930,90,'people'],[320,280,'score'],[930,280,'draft']].forEach(([x,y,ic],i)=>g+=disc(x,y,49,ic,i+1));
   }else if(type==='document'){
    g+=paper(116,62,145,1)+shown(1,'<path class="ax-scan-beam" d="M106 104H273"/>');
