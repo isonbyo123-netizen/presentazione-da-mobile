@@ -88,7 +88,7 @@ const icon=n=>'<svg viewBox="0 0 96 96" aria-hidden="true">'+icons[n]+'</svg>';
    g+=shown(1,'<g class="ax-portal"><rect x="245" y="40" width="220" height="285" rx="110"/><rect x="264" y="59" width="182" height="247" rx="91"/></g><g class="ax-ink-glyph">'+glyph('brain',355,180,113)+'</g>');
    g+=shown(2,'<g class="ax-portal ax-tool-portal"><rect x="785" y="40" width="220" height="285" rx="110"/><rect x="804" y="59" width="182" height="247" rx="91"/></g><g class="ax-ink-glyph">'+glyph('sources',895,180,113)+'</g>')+wave('M477 180C553 115 707 245 773 180',2);
   }else if(type==='orbit'){
-   g+=shown(1,atHero('orbit',624,185,.85))+orbit(624,185,226,156);
+   g+=shown(1,atHero('orbit',624,185,.85))+orbit(624,185,173,173);
    [[320,90,'scout'],[930,90,'people'],[320,280,'score'],[930,280,'draft']].forEach(([x,y,ic],i)=>g+=disc(x,y,49,ic,i+1));
   }else if(type==='document'){
    g+=paper(116,62,145,1)+shown(1,'<path class="ax-scan-beam" d="M106 104H273"/>');
