@@ -72,3 +72,5 @@ body.architecture-active #architectureScene{visibility:hidden!important}
 .arch-agent-group.shown li{animation:archAgentReveal .5s both;animation-delay:calc(var(--agent-index)*.07s)}
 @keyframes archAgentReveal{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){#architectureInteractive,.arch-reveal,.arch-lines path{transition:none}.arch-agent-group.shown li{animation:none}}
+
+.arch-crm p{font-size:13px;line-height:1.3}
