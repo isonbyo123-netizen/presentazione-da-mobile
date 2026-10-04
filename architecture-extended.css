@@ -102,3 +102,5 @@ body.architecture-active #architectureInteractive{visibility:visible;opacity:1;p
 .ax-back-comet.cyan{stroke:#4cc8d2;filter:drop-shadow(0 0 4px #4cc8d255)}
 @keyframes axBackdropSignal{to{stroke-dashoffset:-624}}
 @media(prefers-reduced-motion:reduce){.ax-back-comet{animation:none}}
+
+.ax-back-aura{stroke:none}
