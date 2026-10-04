@@ -32,7 +32,7 @@
   'Four marketing agents prepare the next commercial action',
   'Validation, human review and citations make each result explainable',
   'The platform stores data, documents, events and search indexes',
-  'Qualified opportunities reach the CRM and the commercial team',
+  'ScoutingOpportunity records carry projects, companies, decision makers, scores, rationale, content and contact sequences into Salesforce',
   'Security, governance and human approval apply across the platform'
  ];
  const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -76,14 +76,14 @@
  <div><strong>Immutable event log</strong><span>Traceability, audit and reproducibility</span></div>
  <div><strong>pgvector / PostGIS</strong><span>Semantic search, geographic data, correlations and analysis</span></div>
  </div></article>
- <article class="arch-panel arch-crm arch-reveal" data-reveal="10" style="--arch-accent:#249ddc"><h2><span class="arch-number">7</span>CRM integration</h2><p>Salesforce opportunities<br>Companies, decision makers, scores, content and next actions</p></article>
+ <article class="arch-panel arch-crm arch-reveal" data-reveal="10" style="--arch-accent:#249ddc"><h2><span class="arch-number">7</span>CRM integration</h2><p>Salesforce: ScoutingOpportunity<br>Project, company, decision makers, score, rationale, content and next action</p></article>
  <article class="arch-panel arch-team arch-reveal" data-reveal="10" style="--arch-accent:#2bbf84"><h2><span class="arch-number">8</span>Commercial team</h2><p>Project profiles and stakeholders<br>Email / LinkedIn drafts<br>Human approval and sending</p></article>
  </div>
  <div class="arch-governance arch-reveal" data-reveal="11"><strong>Security & governance</strong><span>AWS EU region</span><span>IAM least privilege</span><span>Private VPC</span><span>KMS encryption</span><span>CloudTrail audit</span><span>GDPR / privacy policies</span><span>Fail-safe: stop on uncertainty</span></div>
  <p class="arch-principle arch-reveal" data-reveal="11">AI recommends. Code controls. People decide.</p>
  </div>`;
  document.body.appendChild(root);
- let step=1,active=false,seen=false,lockedUntil=0,hoverGroup=null;
+ let step=1,active=false,seen=false,hoverGroup=null;
  const renderPresentation=typeof window.render==='function'?window.render:null;
  const hasDeck=typeof startRoadmap==='function'&&typeof forward==='function';
  function size(){root.style.setProperty('--architecture-scale',String(Math.min(innerWidth/1440,innerHeight/900)))}
