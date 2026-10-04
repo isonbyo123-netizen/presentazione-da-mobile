@@ -269,7 +269,7 @@ html.argo-boot-started .loader-grid{opacity:1}
 body.scene-two .ambient{opacity:1}
 .source-orbit.docx{left:4%;top:44%;animation-delay:1.25s}
 body.scene-three .source-orbit.docx{opacity:1}
-</style><script>(function(){function silence(el){if(el instanceof HTMLMediaElement){el.defaultMuted=true;if(!el.muted)el.muted=true;if(el.volume!==0)el.volume=0}}document.addEventListener('play',e=>silence(e.target),true);document.addEventListener('volumechange',e=>silence(e.target),true);document.addEventListener('DOMContentLoaded',()=>document.querySelectorAll('video,audio').forEach(silence),{once:true});})();</script></head>
+</style><script>(function(){function silence(el){if(el instanceof HTMLMediaElement){el.defaultMuted=true;if(!el.muted)el.muted=true;if(el.volume!==0)el.volume=0}}document.addEventListener('play',e=>silence(e.target),true);document.addEventListener('volumechange',e=>silence(e.target),true);document.addEventListener('DOMContentLoaded',()=>document.querySelectorAll('video,audio').forEach(silence),{once:true});})();</script><style>html.argo-returning body.scene-two .loader,html.argo-returning body.scene-three .loader,html.argo-returning body.scene-four .loader{visibility:hidden;pointer-events:none}</style></head>
 <body>
   <main class="scene" aria-label="ARGO introduction animation">
     <div class="ambient" aria-hidden="true"></div>
@@ -383,7 +383,7 @@ body.scene-three .source-orbit.docx{opacity:1}
     const inOut=p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
     const outCubic=p=>1-Math.pow(1-p,3);
     const GLYPH='0123456789€/,.ABCDEFGHILMNOPRSTUVZ';
-    let t=-.15,prev=0,cycle=-1,prepared=-1,beamX=BEAM_FROM,started=false,scene=1;
+    let t=-.15,prev=0,cycle=-1,prepared=-1,beamX=BEAM_FROM,started=false,scene=new URLSearchParams(location.search).get('scene')==='last'?4:1;
     const typing=fields.map(()=>({at:null,label:'',value:'',shown:'',done:false}));
 
     function prepare(k){
@@ -451,10 +451,11 @@ body.scene-three .source-orbit.docx{opacity:1}
  if(scene===1){parent.postMessage({type:'argo-exit'},'*');return}
  scene--;next.disabled=true;
  if(scene===3){document.body.classList.remove('scene-four');document.body.classList.add('scene-three')}
- else if(scene===2){document.body.classList.remove('scene-three','scene-four','logo-collapsed','morph-to-three');document.body.classList.add('scene-two','is-morphing')}
+ else if(scene===2){document.body.classList.remove('scene-three','scene-four','logo-collapsed','morph-to-three');document.body.classList.add('scene-two','is-morphing');if(!started)startLogo()}
  else{document.body.classList.remove('scene-two','scene-three','scene-four','logo-collapsed','is-morphing','morph-to-three')}
  index.textContent='0'+scene+' / 04';setTimeout(()=>next.disabled=false,900);
  }
+ if(scene===4){document.body.classList.add('scene-four','logo-collapsed');index.textContent='04 / 04';next.disabled=false}
  addEventListener('message',e=>{if(e.source!==parent||e.data?.type!=='argo-start'||!e.data.last)return;scene=4;document.body.classList.remove('scene-two','scene-three','is-morphing','morph-to-three');document.body.classList.add('scene-four','logo-collapsed');index.textContent='04 / 04';next.disabled=false});
  next.addEventListener('click',advance);
     window.addEventListener('keydown',e=>{if(e.key==='ArrowRight'&&scene<=4&&!next.disabled){e.preventDefault();advance()}else if(e.key==='ArrowLeft'){e.preventDefault();retreat()}else if(e.key==='Escape'&&parent!==window){e.preventDefault();parent.postMessage({type:'argo-exit'},'*')}});
@@ -470,8 +471,8 @@ body.scene-two:not(.scene-three):not(.scene-four) .code-rail{opacity:.35}
 body.scene-two .hero-inner{width:min(1100px,68vw)}
 @keyframes genericDrift{to{transform:translateY(-33.333%)}}
 </style><script>
-let bootEntered=false;
-addEventListener('message',e=>{if(e.source!==parent||e.data?.type!=='argo-start'||bootEntered)return;bootEntered=true;const root=document.documentElement;root.classList.remove('argo-standby');root.classList.add('argo-boot-started');const next=document.getElementById('scene-next');next.disabled=true;setTimeout(()=>{next.disabled=false},4700)});
+let bootEntered=false;const argoReturning=new URLSearchParams(location.search).get('scene')==='last';if(argoReturning){document.documentElement.classList.remove('argo-standby');document.documentElement.classList.add('argo-returning')}
+addEventListener('message',e=>{if(e.source!==parent||e.data?.type!=='argo-start'||bootEntered)return;bootEntered=true;const root=document.documentElement;root.classList.remove('argo-standby');root.classList.add('argo-boot-started');if(argoReturning||e.data.last)return;const next=document.getElementById('scene-next');next.disabled=true;setTimeout(()=>{next.disabled=false},4700)});
 Promise.resolve(document.fonts.ready).then(()=>parent.postMessage({type:'argo-ready'},'*'));
 </script><style>
 /* Boot geometry grows from the radar's center instead of appearing in one frame. */
