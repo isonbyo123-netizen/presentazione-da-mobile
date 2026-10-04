@@ -1,104 +1,26 @@
 (function(){
- const groups=[
-  {title:'Project scouting',ink:'#6650b4',line:'#c4b0ec',bg:'#f3edff',step:4,agents:[
-   ['Classifier','Determines whether a document is useful'],
-   ['Extractor','Extracts key information from documents'],
-   ['Reconciler','Combines and deduplicates signals'],
-   ['Investigator','Researches the underlying sources']]},
-  {title:'Supply chain & stakeholders',ink:'#248f65',line:'#a9dec9',bg:'#ecfaf3',step:5,agents:[
-   ['Company mapper','Maps companies and supply chains'],
-   ['Role finder','Finds decision makers'],
-   ['Normalizer','Standardizes names and roles'],
-   ['Relationship verifier','Checks existing relationships']]},
-  {title:'Qualification & scoring',ink:'#aa7b13',line:'#ecd184',bg:'#fff8df',step:6,agents:[
-   ['Sector analyst','Assesses sectors and trends'],
-   ['Needs evaluator','Estimates needs and context'],
-   ['Opportunity scorer','Calculates opportunity potential, 0–100'],
-   ['Quality verifier','Checks consistency and quality']]},
-  {title:'Marketing & activation',ink:'#aa3ea4',line:'#e7aee2',bg:'#fff0fb',step:7,agents:[
-   ['Plan builder','Suggests the next commercial step'],
-   ['Copywriter','Drafts email and LinkedIn content'],
-   ['Content verifier','Checks claims and content'],
-   ['Activation planner','Proposes sequences, timing and channels']]}
- ];
- const labels=[
-  'Architecture overview',
-  'Public sources supply the project, company and market signals',
-  'Approved connectors feed a secure ingestion pipeline',
-  'Deterministic orchestration controls model and tool access',
-  'Four scouting agents find and structure project opportunities',
-  'Four stakeholder agents map companies, roles and relationships',
-  'Four qualification agents assess needs, quality and potential',
-  'Four marketing agents prepare the next commercial action',
-  'Validation, human review and citations make each result explainable',
-  'The platform stores data, documents, events and search indexes',
-  'ScoutingOpportunity records carry projects, companies, decision makers, scores, rationale, content and contact sequences into Salesforce',
-  'Security, governance and human approval apply across the platform'
- ];
- const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
- const groupHTML=groups.map((g,i)=>'<article class="arch-agent-group arch-reveal" data-reveal="'+g.step+'" data-group="'+i+'" tabindex="0" aria-label="'+esc(g.title)+' agents" style="--group-ink:'+g.ink+';--group-line:'+g.line+';--group-bg:'+g.bg+'"><h3>'+esc(g.title)+'</h3><ul>'+g.agents.map((a,j)=>'<li style="--agent-index:'+j+'">'+esc(a[0])+'</li>').join('')+'</ul></article>').join('');
+ const labels=['','Start with the right signals.','Protect data before AI.','One orchestrator. 16 specialized agents.','Find the next opportunity.','Connect companies and decision makers.','Rank opportunities by potential.','AI drafts. People approve.','Check the evidence. Keep people in control.','Every result stays traceable.','Qualified opportunities, ready for the team.','AI recommends. Code controls. People decide.'];
  const root=document.createElement('section');root.id='architectureInteractive';root.setAttribute('aria-label','Platform architecture');root.setAttribute('aria-hidden','true');root.inert=true;
  root.innerHTML=`<div id="architectureCanvas">
- <header class="arch-header"><div><h1>Platform architecture</h1><p id="architectureCaption"></p></div><div class="arch-progress" id="architectureProgress" aria-label="Architecture step"></div></header>
- <svg class="arch-lines" viewBox="0 0 1440 900" aria-hidden="true"><defs><marker id="archArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#9f84ed" style="stroke:none;opacity:1;stroke-dasharray:none"/></marker></defs>
- <path data-line="2" d="M244 410H264" marker-end="url(#archArrow)"/>
- <path data-line="3" d="M454 410H474" marker-end="url(#archArrow)"/>
- <path data-line="3" d="M792 260V268H627V272M792 268H957V272" marker-end="url(#archArrow)"/>
- <path data-line="4" d="M627 358V369H792V374M957 358V369H792" marker-end="url(#archArrow)"/>
- <path data-line="8" d="M1110 410H1130" marker-end="url(#archArrow)"/>
- <path data-line="9" d="M154 654V676H210V686M792 654V667H570V686" marker-end="url(#archArrow)"/>
- <path data-line="10" d="M1253 654V667H957V686M806 747H826M1091 747H1111" marker-end="url(#archArrow)"/>
- </svg>
- <div class="arch-grid">
- <article class="arch-panel arch-source arch-reveal" data-reveal="1" style="--arch-accent:#239cdd"><h2><span class="arch-number">1</span>Data sources</h2><p class="arch-description">Public sources, media and platforms</p><ul><li>Tenders</li><li>Industrial investments</li><li>News and press</li><li>Databases and platforms</li><li>Companies and people</li><li>Competitors and markets</li><li>Other signals</li></ul></article>
- <article class="arch-panel arch-intake arch-reveal" data-reveal="2" style="--arch-accent:#ed882d"><h2><span class="arch-number">2</span>Secure intake</h2><p class="arch-description">Controlled ingestion and quarantine</p><ol>
- <li><strong>Approved connectors</strong><span>Allow-list of sources</span></li><li><strong>Quarantine</strong><span>Antivirus, format checks and sandbox</span></li>
- <li><strong>Classification</strong><span>Projects, competitors, markets and people</span></li><li><strong>PII redaction</strong><span>Redaction of personal data</span></li><li><strong>Encrypted storage</strong><span>Data at rest in AWS</span></li>
- </ol></article>
- <div class="arch-core">
- <section class="arch-orchestrator arch-reveal" data-reveal="3"><h2><span class="arch-number">3</span>AWS Step Functions</h2><p>Deterministic orchestrator: next steps, retries, audit, budgets and escalation to human review</p></section>
- <div class="arch-gateways"><section class="arch-gateway arch-reveal" data-reveal="3"><h3>Model gateway</h3><p>Amazon Bedrock<br>Controlled access, guardrails and costs</p></section><section class="arch-gateway arch-reveal" data-reveal="3"><h3>Tool gateway</h3><p>Connectors for search, maps, company data, tenders and media</p></section></div>
- <section class="arch-agents arch-reveal" data-reveal="4"><h2><span class="arch-number">4</span>16 specialized AI agents</h2><p>Each agent has one task. The orchestrator chooses their order and controls execution.</p><div class="arch-groups">${groupHTML}</div></section>
- <div class="arch-rights arch-reveal" data-reveal="7"><div><strong>Agents can</strong>Read, analyse, enrich information and propose content or actions</div><div><strong>Agents cannot</strong>Write to databases, send messages, decide steps or change workflows</div></div>
- </div>
- <div style="position:relative"><article class="arch-detail" id="architectureAgentDetail" hidden></article>
- <article class="arch-panel arch-validation arch-reveal" data-reveal="8" style="--arch-accent:#e5ac1b"><h2><span class="arch-number">5</span>Validation & scoring</h2>
- <section><h3>Automatic checks</h3><p>Deterministic rules, structure, numeric checks, logic and consistency</p></section>
- <section><h3>Human review</h3><p>Uncertain cases, new contacts, drafts and content</p></section>
- <section><h3>Evidence & citations</h3><p>Traceability back to the original sources</p></section>
- <section><h3>Score 0–100</h3><p>Calculation of opportunity potential</p></section>
- </article></div>
- </div>
- <div class="arch-bottom">
- <article class="arch-panel arch-reveal" data-reveal="9" style="--arch-accent:#2bbf84"><h2><span class="arch-number">6</span>Platform data</h2><div class="arch-stores">
- <div><strong>Aurora PostgreSQL</strong><span>Companies, projects, opportunities, signals, scores and audit</span></div>
- <div><strong>Amazon S3</strong><span>Documents, evidence, articles, citations, logs and raw data</span></div>
- <div><strong>Immutable event log</strong><span>Traceability, audit and reproducibility</span></div>
- <div><strong>pgvector / PostGIS</strong><span>Semantic search, geographic data, correlations and analysis</span></div>
- </div></article>
- <article class="arch-panel arch-crm arch-reveal" data-reveal="10" style="--arch-accent:#249ddc"><h2><span class="arch-number">7</span>CRM integration</h2><p>Salesforce: ScoutingOpportunity<br>Project, company, decision makers, score, rationale, content and next action</p></article>
- <article class="arch-panel arch-team arch-reveal" data-reveal="10" style="--arch-accent:#2bbf84"><h2><span class="arch-number">8</span>Commercial team</h2><p>Project profiles and stakeholders<br>Email / LinkedIn drafts<br>Human approval and sending</p></article>
- </div>
- <div class="arch-governance arch-reveal" data-reveal="11"><strong>Security & governance</strong><span>AWS EU region</span><span>IAM least privilege</span><span>Private VPC</span><span>KMS encryption</span><span>CloudTrail audit</span><span>GDPR / privacy policies</span><span>Fail-safe: stop on uncertainty</span></div>
- <p class="arch-principle arch-reveal" data-reveal="11">AI recommends. Code controls. People decide.</p>
+ <header class="arch-header"><span class="arch-eyebrow">PLATFORM ARCHITECTURE</span><h1>From signals to opportunities.</h1><p id="architectureCaption"></p><span id="architectureProgress" aria-label="Architecture step"></span></header>
+ <svg class="arch-flow" viewBox="0 0 1440 900" aria-hidden="true"><defs><marker id="archArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#aa95d2"/></marker></defs><path class="arch-reveal" data-reveal="2" d="M304 408H338"/><path class="arch-reveal" data-reveal="3" d="M564 408H598"/><path class="arch-reveal" data-reveal="8" d="M824 408H858"/><path class="arch-reveal" data-reveal="10" d="M1084 408H1118"/></svg>
+ <div class="arch-nodes"><article class="arch-node arch-reveal" data-reveal="1" data-focus="1" style="--node-color:#1586b7"><span class="arch-node-number">1</span><div class="arch-icon"><svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="32"/><path d="M16 48h64M48 16c-22 18-22 46 0 64M48 16c22 18 22 46 0 64M22 30h52M22 66h52"/></svg></div><h2>Signals</h2><p>Projects · Markets</p></article><article class="arch-node arch-reveal" data-reveal="2" data-focus="2" style="--node-color:#b5661d"><span class="arch-node-number">2</span><div class="arch-icon"><svg viewBox="0 0 96 96" aria-hidden="true"><path d="M48 12 78 24v25c0 19-18 32-30 37-12-5-30-18-30-37V24Z"/><path d="m32 48 11 11 23-26"/></svg></div><h2>Secure intake</h2><p>Filter · Protect</p></article><article class="arch-node arch-reveal" data-reveal="3" data-focus="3" style="--node-color:#7048e8"><span class="arch-node-number">3</span><div class="arch-icon"><svg viewBox="0 0 96 96" aria-hidden="true"><path d="M45 25c-8-16-31-7-27 9-17 8-12 29 1 32-3 20 19 26 26 11V25ZM51 25c8-16 31-7 27 9 17 8 12 29-1 32 3 20-19 26-26 11V25Z"/><path d="M20 34c10 0 12 7 12 12M19 66c12-3 16-11 14-18M76 34c-10 0-12 7-12 12M77 66c-12-3-16-11-14-18"/></svg></div><h2>AI engine</h2><p>16 agents</p><div class="arch-tech">AWS Step Functions<br>Amazon Bedrock</div></article><article class="arch-node arch-reveal" data-reveal="8" data-focus="8" style="--node-color:#9d7217"><span class="arch-node-number">4</span><div class="arch-icon"><svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="34"/><path d="m29 48 13 13 26-28"/></svg></div><h2>Validation</h2><p>Evidence + review</p><div class="arch-score">0–100</div></article><article class="arch-node arch-reveal" data-reveal="10" data-focus="10" style="--node-color:#258961"><span class="arch-node-number">5</span><div class="arch-icon"><svg viewBox="0 0 96 96" aria-hidden="true"><path d="M24 39a18 18 0 0 1 31-16 19 19 0 0 1 29 21c16 15 5 34-9 34H24C2 78 1 44 24 39Z"/><path d="M34 56h28m-10-10 10 10-10 10"/></svg></div><h2>Salesforce</h2><p>Qualified opportunities</p></article></div>
+ <div class="arch-capabilities"><div class="arch-capability arch-reveal" data-reveal="4" data-focus="4"><svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="39" cy="39" r="23"/><path d="m56 56 24 24M28 39h22M39 28v22"/></svg><h3>Find projects</h3></div><div class="arch-capability arch-reveal" data-reveal="5" data-focus="5"><svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="27" r="12"/><circle cx="20" cy="40" r="9"/><circle cx="76" cy="40" r="9"/><path d="M27 80V64a21 21 0 0 1 42 0v16M7 78V66a13 13 0 0 1 16-13M89 78V66a13 13 0 0 0-16-13"/></svg><h3>Map people</h3></div><div class="arch-capability arch-reveal" data-reveal="6" data-focus="6"><svg viewBox="0 0 96 96" aria-hidden="true"><path d="M16 80V52h14v28M41 80V34h14v46M66 80V16h14v64"/></svg><h3>Score potential</h3></div><div class="arch-capability arch-reveal" data-reveal="7" data-focus="7"><svg viewBox="0 0 96 96" aria-hidden="true"><path d="M18 17h48v19M18 17v64h47V63M40 63l4-16 30-30 12 12-30 30Z"/></svg><h3>Draft outreach</h3></div></div>
+ <div class="arch-foundation arch-reveal" data-reveal="9"><svg viewBox="0 0 96 96" aria-hidden="true"><ellipse cx="48" cy="22" rx="31" ry="12"/><path d="M17 22v50c0 16 62 16 62 0V22M17 47c0 16 62 16 62 0"/></svg><strong>Shared data</strong><span>Data · Documents · Audit</span></div>
+ <div class="arch-governance arch-reveal" data-reveal="11"><svg viewBox="0 0 96 96" aria-hidden="true"><path d="M48 12 78 24v25c0 19-18 32-30 37-12-5-30-18-30-37V24Z"/><path d="m32 48 11 11 23-26"/></svg><strong>Secure by design</strong><span>EU cloud · Privacy · Human approval</span></div>
  </div>`;
  document.body.appendChild(root);
  let step=1,active=false,seen=false,hoverGroup=null;
  const renderPresentation=typeof window.render==='function'?window.render:null;
  const hasDeck=typeof startRoadmap==='function'&&typeof forward==='function';
  function size(){root.style.setProperty('--architecture-scale',String(Math.min(innerWidth/1440,innerHeight/900)))}
- function detail(index){
-  const pane=document.getElementById('architectureAgentDetail'),g=groups[index];
-  if(!g){pane.hidden=true;return}
-  pane.hidden=false;pane.innerHTML='<h2>'+esc(g.title)+'</h2><ol>'+g.agents.map(a=>'<li><strong>'+esc(a[0])+'</strong><span>'+esc(a[1])+'</span></li>').join('')+'</ol>';
- }
  function render(){
-  root.dataset.step=String(step);document.getElementById('architectureCaption').textContent=labels[step];
+  root.dataset.step=String(step);
+  document.getElementById('architectureCaption').textContent=labels[step];
   document.getElementById('architectureProgress').textContent=String(step).padStart(2,'0')+' / 11';
   root.querySelectorAll('[data-reveal]').forEach(el=>el.classList.toggle('shown',step>=Number(el.dataset.reveal)));
-  root.querySelectorAll('[data-line]').forEach(el=>el.classList.toggle('shown',step>=Number(el.dataset.line)));
-  root.querySelectorAll('[data-group]').forEach(el=>el.classList.toggle('active',step===Number(el.dataset.reveal)));
-  detail(step>=4&&step<=7?step-4:null);size();
+  root.querySelectorAll('[data-focus]').forEach(el=>el.classList.toggle('active',step===Number(el.dataset.focus)));
+  size();
  }
  function open(at=1){
   step=at;active=true;root.inert=false;root.setAttribute('aria-hidden','false');document.body.classList.add('architecture-active');
@@ -115,12 +37,6 @@
  function retreat(){
   if(step>1){step--;render()}else if(hasDeck){seen=false;close()}
  }
- root.querySelectorAll('[data-group]').forEach(el=>{
-  const show=()=>{if(step>=8&&step>=Number(el.dataset.reveal)){hoverGroup=Number(el.dataset.group);detail(hoverGroup)}};
-  el.addEventListener('mouseenter',show);el.addEventListener('focus',show);
-  const hide=()=>{if(step>=8){hoverGroup=null;detail(null)}};
-  el.addEventListener('mouseleave',hide);el.addEventListener('blur',hide);
- });
  let originalRoadmap=null;
  if(hasDeck){
   originalRoadmap=startRoadmap;
