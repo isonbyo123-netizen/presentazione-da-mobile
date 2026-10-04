@@ -1,76 +1,34 @@
-/* One Tech architecture: staged HTML composition, no rasterized text. */
-#architectureInteractive{position:fixed;inset:0;z-index:280;background:linear-gradient(135deg,#faf9ff,#f2edff 58%,#f6fbff);overflow:hidden;visibility:hidden;opacity:0;pointer-events:none;transition:opacity .45s,visibility 0s .45s;color:#342246;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+#architectureInteractive{position:fixed;inset:0;z-index:280;background:radial-gradient(ellipse at 51% 40%,#eee5ff 0,#faf8ff 58%,#f6fbff 100%);overflow:hidden;visibility:hidden;opacity:0;pointer-events:none;transition:opacity .45s,visibility 0s .45s;color:#342246;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
 body.architecture-active #architectureInteractive{visibility:visible;opacity:1;pointer-events:auto;transition:opacity .45s}
 body.architecture-active #architectureScene{visibility:hidden!important}
 #architectureCanvas{position:absolute;left:50%;top:50%;width:1440px;height:900px;transform:translate(-50%,-50%) scale(var(--architecture-scale,1));transform-origin:center;overflow:hidden}
-.arch-header{position:absolute;left:64px;right:64px;top:44px;display:flex;align-items:flex-start;justify-content:space-between}
-.arch-header h1{margin:0;font-size:48px;line-height:1.1;letter-spacing:-.05em;font-weight:650}
-.arch-header p{margin:15px 0 0;font-size:20px;line-height:1.35;color:#79658f;max-width:1080px}
-.arch-progress{padding-top:8px;min-width:72px;text-align:right;color:#79658f;font-size:17px;font-variant-numeric:tabular-nums}
-.arch-lines{position:absolute;inset:0;width:1440px;height:900px;pointer-events:none}
-.arch-lines path{fill:none;stroke:#9f84ed;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:1000;stroke-dashoffset:1000;opacity:0;transition:stroke-dashoffset 1s ease,opacity .6s}
-.arch-lines path.shown{opacity:.65;stroke-dashoffset:0}
-.arch-grid{position:absolute;left:64px;top:172px;width:1312px;height:482px;display:grid;grid-template-columns:180px 190px 636px 246px;grid-template-rows:minmax(0,1fr);gap:20px}
-.arch-panel{min-height:0;border:1px solid #d7c9ed;border-radius:22px;background:#ffffffe8;padding:18px;position:relative}
-.arch-source{border-color:#a9dff0;background:linear-gradient(160deg,#fff,#e9f9fd)}
-.arch-intake{border-color:#ecd1a3;background:linear-gradient(160deg,#fff,#fff5e3)}
-.arch-core{padding:0;border:0;background:transparent}
-.arch-panel h2{margin:0 0 11px;font-size:22px;line-height:1.1;letter-spacing:-.03em;font-weight:650}
-.arch-number{display:inline-grid;place-items:center;width:26px;height:26px;vertical-align:middle;margin-right:7px;border-radius:50%;background:var(--arch-accent,#6f4dff);color:white;font-size:15px;font-weight:650;letter-spacing:0}
-.arch-description{margin:0 0 12px;color:#79658f;font-size:14px;line-height:1.35}
-.arch-source ul{list-style:none;margin:0;padding:0}
-.arch-source li{padding:6px 0;border-bottom:1px solid #b9e5f370;font-size:16px;line-height:1.3;color:#246b9b}
-.arch-source li:last-child{border-bottom:0}
-.arch-intake ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.arch-intake strong{display:block;font-size:16px;line-height:1.2;color:#965c1c}
-.arch-intake li span{display:block;margin-top:4px;font-size:14px;line-height:1.3;color:#79658f}
- .arch-orchestrator{height:90px;border:1px solid #c4a9f0;border-radius:18px;padding:10px 18px;background:linear-gradient(120deg,#fff,#eee2ff)}
-.arch-orchestrator h2{font-size:20px;margin:0 0 5px}
- .arch-orchestrator p{margin:0;font-size:14px;line-height:1.35;color:#79658f}
-.arch-gateways{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-.arch-gateway{height:84px;padding:10px 17px;border:1px solid #a6d4f2;border-radius:15px;background:#eef8ff}
-.arch-gateway h3{margin:0 0 5px;font-size:19px;line-height:1.15;font-weight:650}
-.arch-gateway p{margin:0;font-size:14px;line-height:1.3;color:#61738a}
-.arch-agents{margin-top:16px}
-.arch-agents>h2{margin:0 0 6px;font-size:24px;line-height:1.1}
-.arch-agents>p{display:none;margin:0 0 10px;font-size:14px;color:#79658f}
-.arch-groups{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.arch-agent-group{padding:12px 10px;height:206px;border:1px solid var(--group-line);border-radius:15px;background:var(--group-bg);cursor:pointer;outline:none}
-.arch-agent-group:focus-visible{outline:3px solid #6f4dff;outline-offset:3px}
-.arch-agent-group.active{box-shadow:0 0 0 2px var(--group-line)}
-.arch-agent-group h3{font-size:17px;line-height:1.2;margin:0 0 8px;color:var(--group-ink);height:41px;font-weight:650;letter-spacing:-.02em}
-.arch-agent-group ul{list-style:none;margin:0;padding:0}
-.arch-agent-group li{font-size:14px;line-height:1.2;min-height:28px;margin-bottom:3px;color:var(--group-ink)}
-.arch-agent-group li::before{content:"";display:inline-block;width:5px;height:5px;background:currentColor;border-radius:50%;vertical-align:3px;margin-right:6px}
-.arch-rights{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.arch-rights div{padding:6px 9px;border-radius:12px;background:#eafaf1;font-size:12px;line-height:1.15;color:#25734b}
-.arch-rights div:last-child{background:#fff0f4;color:#a04464}
-.arch-rights strong{display:block;font-size:13px;margin-bottom:3px}
-.arch-detail{position:absolute;inset:0;z-index:2;padding:18px;border:1px solid #c9b5ec;border-radius:22px;background:#fffffff2;transition:opacity .25s}
-.arch-detail h2{font-size:22px;margin-bottom:21px}
-.arch-detail ol{list-style:none;margin:0;padding:0;display:grid;gap:21px}
-.arch-detail strong{display:block;font-size:19px;line-height:1.15;color:#6f4dff}
-.arch-detail span{display:block;font-size:16px;line-height:1.4;color:#79658f;margin-top:5px}
-.arch-validation{position:absolute;inset:0;background:linear-gradient(160deg,#fff,#fff8df);border-color:#ebd697}
-.arch-validation h2{margin-bottom:22px}
-.arch-validation section{padding:12px 0 13px;border-top:1px solid #ead69280}
-.arch-validation section:first-of-type{border-top:0;padding-top:0}
-.arch-validation h3{font-size:18px;line-height:1.15;margin:0 0 6px;color:#966823;font-weight:650}
-.arch-validation p{font-size:15px;line-height:1.4;margin:0;color:#79658f}
-.arch-bottom{position:absolute;left:64px;top:688px;width:1312px;height:138px;display:grid;grid-template-columns:2.8fr 1fr 1fr;grid-template-rows:minmax(0,1fr);gap:20px}
-.arch-bottom .arch-panel{padding:15px 18px;border-color:#afe3cd;background:linear-gradient(120deg,#fff,#effbf6);border-radius:18px}
-.arch-bottom h2{font-size:21px;margin-bottom:10px}
-.arch-stores{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.arch-stores strong{display:block;font-size:16px;margin-bottom:5px;color:#296752}
-.arch-stores span{font-size:13px;line-height:1.3;color:#657b72;display:block}
-.arch-crm p,.arch-team p{margin:0;font-size:14px;line-height:1.25;color:#657b72}
-.arch-governance{position:absolute;left:64px;top:839px;width:1312px;border-top:1px solid #cbbbde;padding-top:11px;display:flex;gap:19px;align-items:center;font-size:14px;color:#79658f}
-.arch-governance strong{color:#6f4dff;font-size:15px;white-space:nowrap}
-.arch-principle{position:absolute;left:64px;right:64px;top:873px;margin:0;text-align:center;font-size:19px;font-weight:550;letter-spacing:-.015em;color:#503477}
-.arch-reveal{opacity:0;visibility:hidden;transform:translateY(14px);transition:opacity .65s,transform .75s cubic-bezier(.22,.75,.2,1),visibility 0s .65s}
-.arch-reveal.shown{opacity:1;visibility:visible;transform:none;transition:opacity .65s,transform .75s cubic-bezier(.22,.75,.2,1),visibility 0s}
-.arch-agent-group.shown li{animation:archAgentReveal .5s both;animation-delay:calc(var(--agent-index)*.07s)}
-@keyframes archAgentReveal{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:reduce){#architectureInteractive,.arch-reveal,.arch-lines path{transition:none}.arch-agent-group.shown li{animation:none}}
-
-.arch-crm p{font-size:13px;line-height:1.3}
+#architectureCanvas *{box-sizing:border-box}
+.arch-header{position:absolute;left:80px;right:80px;top:48px}
+.arch-eyebrow{font-size:22px;letter-spacing:.13em;color:#765f9a;font-weight:650}
+.arch-header h1{font-size:64px;line-height:1.08;letter-spacing:-.05em;margin:17px 0 14px;font-weight:680}
+.arch-header p{font-size:32px;line-height:1.2;margin:0;color:#765f9a}
+#architectureProgress{position:absolute;right:0;top:0;font-size:23px;color:#765f9a;font-variant-numeric:tabular-nums}
+.arch-nodes{position:absolute;left:80px;top:258px;display:grid;grid-template-columns:repeat(5,224px);gap:36px}
+.arch-node{height:304px;background:#ffffffed;border:2px solid #e2d8ef;border-radius:30px;position:relative;padding:26px 12px;text-align:center;box-shadow:0 12px 35px #5a317208;color:var(--node-color)}
+.arch-node-number{position:absolute;top:15px;left:17px;font-size:22px;font-weight:650;opacity:.65}
+.arch-icon{width:88px;height:88px;margin:0 auto 20px}
+.arch-icon svg,.arch-capability svg,.arch-foundation svg,.arch-governance svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.arch-node h2{font-size:30px;letter-spacing:-.035em;line-height:1.1;margin:0 0 15px;color:#342246}
+.arch-node p{font-size:24px;line-height:1.2;margin:0;color:#6b587e}
+.arch-tech{font-size:21px;line-height:1.25;margin-top:16px;color:#765f9a}
+.arch-score{font-size:42px;line-height:1;margin-top:18px;font-weight:700}
+.arch-flow{position:absolute;inset:0;width:1440px;height:900px;pointer-events:none}
+.arch-flow>path{fill:none;stroke:#aa95d2;stroke-width:4;marker-end:url(#archArrow)}
+.arch-capabilities{position:absolute;left:80px;top:604px;width:1264px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.arch-capability{display:flex;align-items:center;gap:16px;padding:18px 20px;background:#ece3fc;border:2px solid transparent;border-radius:22px;height:102px;color:#7048e8}
+.arch-capability svg{width:52px;height:52px;flex:none}
+.arch-capability h3{font-size:28px;line-height:1.15;letter-spacing:-.03em;font-weight:650;margin:0;color:#503477}
+.arch-foundation,.arch-governance{position:absolute;left:80px;width:1264px;height:62px;display:flex;align-items:center;gap:22px;font-size:28px;letter-spacing:-.02em;border-top:2px solid #ded2ee;padding-top:14px}
+.arch-foundation{top:735px;color:#387d83}.arch-governance{top:813px;color:#7654a7}
+.arch-foundation svg,.arch-governance svg{width:38px;height:38px;flex:none}
+.arch-foundation span,.arch-governance span{margin-left:auto;color:#6b587e;font-size:27px}
+.arch-reveal{opacity:0;transform:translateY(18px);visibility:hidden;transition:opacity .65s,transform .65s,visibility 0s .65s,border-color .3s,box-shadow .3s}
+.arch-reveal.shown{opacity:1;transform:translateY(0);visibility:visible;transition:opacity .65s,transform .65s,visibility 0s,border-color .3s,box-shadow .3s}
+.arch-node.active{border-color:var(--node-color);box-shadow:0 0 0 7px #7048e811,0 15px 45px #7048e81c}
+.arch-capability.active{border-color:#7048e8;background:#e5d7ff;box-shadow:0 0 0 5px #7048e80c}
+@media(prefers-reduced-motion:reduce){.arch-reveal,#architectureInteractive{transition:none}}
