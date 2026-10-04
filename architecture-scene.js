@@ -110,13 +110,9 @@
  }
  const renderDeck=hasDeck?renderPresentation:null;
  function advance(){
-  if(performance.now()<lockedUntil)return;
-  lockedUntil=performance.now()+350;
   if(step<11){step++;render()}else if(hasDeck){seen=true;close();originalRoadmap()}
  }
  function retreat(){
-  if(performance.now()<lockedUntil)return;
-  lockedUntil=performance.now()+350;
   if(step>1){step--;render()}else if(hasDeck){seen=false;close()}
  }
  root.querySelectorAll('[data-group]').forEach(el=>{
