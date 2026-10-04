@@ -10,23 +10,23 @@ body.architecture-active #architectureScene{visibility:hidden!important}
 .arch-lines{position:absolute;inset:0;width:1440px;height:900px;pointer-events:none}
 .arch-lines path{fill:none;stroke:#9f84ed;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:1000;stroke-dashoffset:1000;opacity:0;transition:stroke-dashoffset 1s ease,opacity .6s}
 .arch-lines path.shown{opacity:.65;stroke-dashoffset:0}
-.arch-grid{position:absolute;left:64px;top:172px;width:1312px;height:482px;display:grid;grid-template-columns:180px 190px 636px 246px;gap:20px}
-.arch-panel{border:1px solid #d7c9ed;border-radius:22px;background:#ffffffe8;padding:18px;position:relative}
+.arch-grid{position:absolute;left:64px;top:172px;width:1312px;height:482px;display:grid;grid-template-columns:180px 190px 636px 246px;grid-template-rows:minmax(0,1fr);gap:20px}
+.arch-panel{min-height:0;border:1px solid #d7c9ed;border-radius:22px;background:#ffffffe8;padding:18px;position:relative}
 .arch-source{border-color:#a9dff0;background:linear-gradient(160deg,#fff,#e9f9fd)}
 .arch-intake{border-color:#ecd1a3;background:linear-gradient(160deg,#fff,#fff5e3)}
 .arch-core{padding:0;border:0;background:transparent}
 .arch-panel h2{margin:0 0 11px;font-size:22px;line-height:1.1;letter-spacing:-.03em;font-weight:650}
 .arch-number{display:inline-grid;place-items:center;width:26px;height:26px;vertical-align:middle;margin-right:7px;border-radius:50%;background:var(--arch-accent,#6f4dff);color:white;font-size:15px;font-weight:650;letter-spacing:0}
-.arch-description{margin:0 0 16px;color:#79658f;font-size:15px;line-height:1.4}
+.arch-description{margin:0 0 12px;color:#79658f;font-size:14px;line-height:1.35}
 .arch-source ul{list-style:none;margin:0;padding:0}
-.arch-source li{padding:8px 0;border-bottom:1px solid #b9e5f370;font-size:16px;line-height:1.3;color:#246b9b}
+.arch-source li{padding:6px 0;border-bottom:1px solid #b9e5f370;font-size:16px;line-height:1.3;color:#246b9b}
 .arch-source li:last-child{border-bottom:0}
 .arch-intake ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .arch-intake strong{display:block;font-size:16px;line-height:1.2;color:#965c1c}
 .arch-intake li span{display:block;margin-top:4px;font-size:14px;line-height:1.3;color:#79658f}
 .arch-orchestrator{height:88px;border:1px solid #c4a9f0;border-radius:18px;padding:15px 18px;background:linear-gradient(120deg,#fff,#eee2ff)}
 .arch-orchestrator h2{font-size:20px;margin:0 0 7px}
-.arch-orchestrator p{margin:0;font-size:15px;line-height:1.35;color:#79658f}
+ .arch-orchestrator p{margin:0;font-size:14px;line-height:1.35;color:#79658f}
 .arch-gateways{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
 .arch-gateway{height:86px;padding:13px 17px;border:1px solid #a6d4f2;border-radius:15px;background:#eef8ff}
 .arch-gateway h3{margin:0 0 5px;font-size:19px;line-height:1.15;font-weight:650}
@@ -57,13 +57,13 @@ body.architecture-active #architectureScene{visibility:hidden!important}
 .arch-validation section:first-of-type{border-top:0;padding-top:0}
 .arch-validation h3{font-size:18px;line-height:1.15;margin:0 0 6px;color:#966823;font-weight:650}
 .arch-validation p{font-size:15px;line-height:1.4;margin:0;color:#79658f}
-.arch-bottom{position:absolute;left:64px;top:688px;width:1312px;height:138px;display:grid;grid-template-columns:2.8fr 1fr 1fr;gap:20px}
+.arch-bottom{position:absolute;left:64px;top:688px;width:1312px;height:138px;display:grid;grid-template-columns:2.8fr 1fr 1fr;grid-template-rows:minmax(0,1fr);gap:20px}
 .arch-bottom .arch-panel{padding:15px 18px;border-color:#afe3cd;background:linear-gradient(120deg,#fff,#effbf6);border-radius:18px}
 .arch-bottom h2{font-size:21px;margin-bottom:10px}
 .arch-stores{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .arch-stores strong{display:block;font-size:16px;margin-bottom:5px;color:#296752}
 .arch-stores span{font-size:13px;line-height:1.3;color:#657b72;display:block}
-.arch-crm p,.arch-team p{margin:0;font-size:15px;line-height:1.35;color:#657b72}
+.arch-crm p,.arch-team p{margin:0;font-size:14px;line-height:1.25;color:#657b72}
 .arch-governance{position:absolute;left:64px;top:839px;width:1312px;border-top:1px solid #cbbbde;padding-top:11px;display:flex;gap:19px;align-items:center;font-size:14px;color:#79658f}
 .arch-governance strong{color:#6f4dff;font-size:15px;white-space:nowrap}
 .arch-principle{position:absolute;left:64px;right:64px;top:873px;margin:0;text-align:center;font-size:19px;font-weight:550;letter-spacing:-.015em;color:#503477}
