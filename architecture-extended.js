@@ -96,7 +96,7 @@ const icon=n=>'<svg viewBox="0 0 96 96" aria-hidden="true">'+icons[n]+'</svg>';
    [[82,116],[71,180],[92,298],[170,34],[252,20],[437,24],[796,103],[809,331],[92,361],[513,366]].forEach(([x,y],i)=>bg+='<rect class="ax-back-pad '+(i%2?'cyan':'purple')+'" x="'+(x-4)+'" y="'+(y-4)+'" width="8" height="8" rx="2"/>');
    bg+='<path class="ax-back-comet cyan" d="M462 282H531L578 331H809"/>';
   }else if(type==='orbit'){
-   bg=aura(624,185,240,179,'Purple')+aura(537,166,194,171,'Cyan');
+   bg=aura(624,185,240,179,'Purple')+aura(537,166,194,158,'Cyan');
    ['M164 58 212 35 273 48 318 26 389 53','M165 340 231 367 298 345 347 370 399 340','M852 42 907 23 973 46 1040 27 1096 63','M860 346 920 370 978 346 1042 368 1110 332'].forEach((p,i)=>bg+=trace(p,i%2?'cyan':'purple'));
    [[212,35],[273,48],[389,53],[231,367],[347,370],[907,23],[1040,27],[920,370],[1042,368]].forEach(([x,y],i)=>bg+=star(x,y,i%2?'cyan':'purple'));
    for(let i=0;i<40;i++){const a=i*Math.PI/20;bg+='<path class="ax-back-tick" d="M'+(624+178*Math.cos(a))+' '+(185+178*Math.sin(a))+'L'+(624+183*Math.cos(a))+' '+(185+183*Math.sin(a))+'"/>'}
