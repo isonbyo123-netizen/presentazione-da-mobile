@@ -169,6 +169,10 @@ function startAdviserGait(animation){
 }
 
 function render(previous=step){showCase();
+// Direct reverse entry skips the intro-to-funnel animation, so restore the
+// visibility explicitly on every step instead of relying on its completion.
+intro.style.visibility=step>0&&!document.body.classList.contains('kore-diving')?'hidden':'visible';
+const funnelScreen=document.getElementById('journeyCanvas');funnelScreen.style.visibility=step>0?'visible':'hidden';
 let funnelBrand=document.getElementById('koreFunnelBrand');if(!funnelBrand){funnelBrand=document.createElement('img');funnelBrand.id='koreFunnelBrand';funnelBrand.src='kore-official.png';funnelBrand.alt='KORE';document.body.appendChild(funnelBrand)}funnelBrand.hidden=step===0;
 clearTimeout(docWalkTimer);docWalk?.cancel();cancelAnimationFrame(adviserGaitFrame);adviserGaitFrame=0;poseAdviser(null);
 document.body.classList.toggle('journey',step>0);document.body.classList.toggle('document-stage',step>=2);document.body.classList.toggle('architecture-stage',step===7);
