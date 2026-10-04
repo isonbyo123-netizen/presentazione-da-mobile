@@ -1,4 +1,5 @@
 (function(){
+ if(new URLSearchParams(location.search).get('architecture')==='none')return;
  if(new URLSearchParams(location.search).get('architecture')==='extended'){
   const css=document.createElement('link');css.rel='stylesheet';css.href='architecture-extended.css?v=20';document.head.appendChild(css);
   const js=document.createElement('script');js.src='architecture-extended.js?v=20';document.body.appendChild(js);return;
