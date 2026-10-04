@@ -55,3 +55,5 @@ body.architecture-active #architectureInteractive{visibility:visible;opacity:1;p
 @keyframes axPlane{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(12px,-12px) rotate(-3deg)}}
 @media(prefers-reduced-motion:reduce){.ax-build,.ax-node{transition:none}.ax-float-disc,.ax-disc-ring,.ax-dotted-link,.ax-send-plane{animation:none}}
 
+
+.ax-score{font-size:60px;letter-spacing:0}
