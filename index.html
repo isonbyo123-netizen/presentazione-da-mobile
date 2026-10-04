@@ -46,4 +46,4 @@ frame.onload=()=>{
  }fit();
 };
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();nav(e.key==='ArrowRight'?'forward':'backward')}});
-</script></body></html>
+</script><script>if(new URLSearchParams(location.search).get('architecture')==='extended'){const frame=document.getElementById('deck');const url=new URL(frame.getAttribute('src'),location.href);url.searchParams.set('architecture','extended');frame.src=url.href;}</script></body></html>
