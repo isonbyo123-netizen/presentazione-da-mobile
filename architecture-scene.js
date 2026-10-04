@@ -1,7 +1,7 @@
 (function(){
  if(new URLSearchParams(location.search).get('architecture')==='extended'){
-  const css=document.createElement('link');css.rel='stylesheet';css.href='architecture-extended.css?v=3';document.head.appendChild(css);
-  const js=document.createElement('script');js.src='architecture-extended.js?v=3';document.body.appendChild(js);return;
+  const css=document.createElement('link');css.rel='stylesheet';css.href='architecture-extended.css?v=4';document.head.appendChild(css);
+  const js=document.createElement('script');js.src='architecture-extended.js?v=4';document.body.appendChild(js);return;
  }
 
  const labels=['','Start with the right signals.','Protect data before AI.','One orchestrator. 16 specialized agents.','Find the next opportunity.','Connect companies and decision makers.','Rank opportunities by potential.','AI drafts. People approve.','Check the evidence. Keep people in control.','Every result stays traceable.','Qualified opportunities, ready for the team.','AI recommends. Code controls. People decide.'];
