@@ -58,6 +58,7 @@ const icon=n=>'<svg viewBox="0 0 96 96" aria-hidden="true">'+icons[n]+'</svg>';
  function composition(type){
   const fours=['orbit','document','network','gauge','letter'];
   let p=fours.includes(type)?[[155,70],[1093,70],[155,355],[1093,355]]:[[165,75],[1083,75],[624,414]];
+  if(['filter','security'].includes(type))p=[[165,75],[1083,75],[165,355]];
   if(type==='journey')p=[[215,205],[624,205],[1033,205]];
   if(['gateways','handoff','search'].includes(type))p=[[280,215],[968,215]];
   if(['control','evidence','crm'].includes(type))p=[[155,70],[155,350],[1093,210]];
