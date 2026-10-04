@@ -37,3 +37,5 @@ body.architecture-active #architectureInteractive{visibility:visible;opacity:1;p
 @keyframes axStream{to{stroke-dashoffset:-346}}@media(prefers-reduced-motion:reduce){.ax-link{animation:none}}
 
 #axContent .ax-core-orb{fill:url(#axOrb)}#axContent .ax-core-aura{fill:url(#axAura)}#axContent .ax-orb-agent{fill:url(#axGlass)}#axContent .ax-orbit-plane{fill:none}#axContent .ax-human-head{fill:url(#axMint)}#axContent .ax-approval-badge circle{fill:#fcfffd}
+
+[data-layout=handoff] .ax-node{width:360px}
