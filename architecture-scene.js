@@ -33,7 +33,7 @@
   'Validation, human review and citations make each result explainable',
   'The platform stores data, documents, events and search indexes',
   'Qualified opportunities reach the CRM and the commercial team',
-  'AI recommends. Code controls. People decide.'
+  'Security, governance and human approval apply across the platform'
  ];
  const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
  const groupHTML=groups.map((g,i)=>'<article class="arch-agent-group arch-reveal" data-reveal="'+g.step+'" data-group="'+i+'" tabindex="0" aria-label="'+esc(g.title)+' agents" style="--group-ink:'+g.ink+';--group-line:'+g.line+';--group-bg:'+g.bg+'"><h3>'+esc(g.title)+'</h3><ul>'+g.agents.map((a,j)=>'<li style="--agent-index:'+j+'">'+esc(a[0])+'</li>').join('')+'</ul></article>').join('');
@@ -71,12 +71,12 @@
  </div>
  <div class="arch-bottom">
  <article class="arch-panel arch-reveal" data-reveal="9" style="--arch-accent:#2bbf84"><h2><span class="arch-number">6</span>Platform data</h2><div class="arch-stores">
- <div><strong>Aurora PostgreSQL</strong><span>Companies, projects, opportunities, signals, scores and audit history</span></div>
- <div><strong>Amazon S3</strong><span>Documents, evidence, articles, citations, process logs and unstructured data</span></div>
+ <div><strong>Aurora PostgreSQL</strong><span>Companies, projects, opportunities, signals, scores and audit</span></div>
+ <div><strong>Amazon S3</strong><span>Documents, evidence, articles, citations, logs and raw data</span></div>
  <div><strong>Immutable event log</strong><span>Traceability, audit and reproducibility</span></div>
- <div><strong>pgvector / PostGIS</strong><span>Semantic search, geographical data, correlations and analysis</span></div>
+ <div><strong>pgvector / PostGIS</strong><span>Semantic search, geographic data, correlations and analysis</span></div>
  </div></article>
- <article class="arch-panel arch-crm arch-reveal" data-reveal="10" style="--arch-accent:#249ddc"><h2><span class="arch-number">7</span>CRM integration</h2><p>Salesforce<br>Qualified scouting opportunities, companies, decision makers, scores and next actions</p></article>
+ <article class="arch-panel arch-crm arch-reveal" data-reveal="10" style="--arch-accent:#249ddc"><h2><span class="arch-number">7</span>CRM integration</h2><p>Salesforce opportunities<br>Companies, decision makers, scores, content and next actions</p></article>
  <article class="arch-panel arch-team arch-reveal" data-reveal="10" style="--arch-accent:#2bbf84"><h2><span class="arch-number">8</span>Commercial team</h2><p>Project profiles and stakeholders<br>Email / LinkedIn drafts<br>Human approval and sending</p></article>
  </div>
  <div class="arch-governance arch-reveal" data-reveal="11"><strong>Security & governance</strong><span>AWS EU region</span><span>IAM least privilege</span><span>Private VPC</span><span>KMS encryption</span><span>CloudTrail audit</span><span>GDPR / privacy policies</span><span>Fail-safe: stop on uncertainty</span></div>
