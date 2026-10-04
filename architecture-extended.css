@@ -81,3 +81,24 @@ body.architecture-active #architectureInteractive{visibility:visible;opacity:1;p
 .ax-seal circle{filter:drop-shadow(0 0 8px #22ae7b30)}
 .ax-map-pin{filter:drop-shadow(0 0 7px #308bea38)}
 .ax-storage-led{filter:drop-shadow(0 0 5px #00c8bd99)}
+
+.ax-scene-backdrop{pointer-events:none}
+.ax-back-trace{fill:none;stroke:#b699ee;stroke-width:1.5;opacity:.45;stroke-linecap:round;stroke-linejoin:round}
+.ax-back-trace.cyan,.ax-back-outline.cyan,.ax-back-ring.cyan{stroke:#67cdd4}
+.ax-back-panel{fill:url(#axBgWash);stroke:#cab5ee;stroke-width:1.5;stroke-opacity:.38}
+.ax-back-outline{fill:none;stroke:#bba0e9;stroke-width:1.2;opacity:.38}
+.ax-back-ring{fill:none;stroke:#bba0e9;stroke-width:1.2;opacity:.3;stroke-dasharray:2 7}
+.ax-back-star{fill:none;stroke:#a482e2;stroke-width:1.5;opacity:.65;stroke-linecap:round}
+.ax-back-star.cyan{stroke:#51c6d1}
+.ax-back-pad{fill:#fff;stroke:#ad8ddd;stroke-width:1.3;opacity:.7}
+.ax-back-pad.cyan{stroke:#61c6d0}
+.ax-back-hex{fill:#f8f4ff;stroke:#bea6e6;stroke-width:1.2;opacity:.5}
+.ax-back-hex.cyan{fill:#effcfc;stroke:#91d3d7}
+.ax-back-grid{fill:none;stroke:#cfbfeb;stroke-width:1;opacity:.26}
+.ax-back-tick{fill:none;stroke:#b99ae9;stroke-width:1.2;opacity:.4}
+.ax-back-chart-fill{fill:url(#axBgWash);stroke:none;opacity:.8}
+.ax-back-cutout{fill:#fff;stroke:none}
+.ax-back-comet{fill:none;stroke:#a983ee;stroke-width:2;opacity:.65;stroke-dasharray:16 88;animation:axBackdropSignal 16s linear infinite;filter:drop-shadow(0 0 4px #a983ee55)}
+.ax-back-comet.cyan{stroke:#4cc8d2;filter:drop-shadow(0 0 4px #4cc8d255)}
+@keyframes axBackdropSignal{to{stroke-dashoffset:-624}}
+@media(prefers-reduced-motion:reduce){.ax-back-comet{animation:none}}

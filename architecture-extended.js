@@ -68,8 +68,65 @@ const icon=n=>'<svg viewBox="0 0 96 96" aria-hidden="true">'+icons[n]+'</svg>';
   return shown(n,'<g class="ax-free-flow" style="color:'+col+'"><path class="ax-flow-aura" d="'+d+'"/><path class="ax-flow-strand" d="'+d+'"/><path class="ax-flow-light" d="'+d+'"/><g class="ax-traveller"><rect x="-7" y="-9" width="14" height="18" rx="3"/><path d="M-3-3H3M-3 2H3"/><animateMotion path="'+d+'" dur="5s" repeatCount="indefinite"/></g></g>');
  }
  const house=(x,y,n)=>shown(n,'<g class="ax-company" style="color:'+tones[(n-1)%4]+'"><path d="M'+(x-55)+' '+(y+65)+'V'+(y-28)+'L'+x+' '+(y-65)+'L'+(x+55)+' '+(y-28)+'V'+(y+65)+'Z"/><path d="M'+(x-25)+' '+y+'H'+(x+25)+'M'+(x-25)+' '+(y+27)+'H'+(x+25)+'"/></g>');
+
+ function backdrop(type){
+  if(!['signals','filter','control','orbit','gauge','security','finale'].includes(type))return '';
+  const bgDefs='<defs><radialGradient id="axBgPurple"><stop stop-color="#8864ff" stop-opacity=".22"/><stop offset="1" stop-color="#8864ff" stop-opacity="0"/></radialGradient><radialGradient id="axBgCyan"><stop stop-color="#00c8ce" stop-opacity=".2"/><stop offset="1" stop-color="#00c8ce" stop-opacity="0"/></radialGradient><linearGradient id="axBgWash" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eee7ff" stop-opacity=".8"/><stop offset="1" stop-color="#e3fafb" stop-opacity=".35"/></linearGradient></defs>';
+  const aura=(x,y,rx,ry,col)=>'<ellipse class="ax-back-aura" cx="'+x+'" cy="'+y+'" rx="'+rx+'" ry="'+ry+'" fill="url(#axBg'+col+')"/>';
+  const trace=(p,col='purple')=>'<path class="ax-back-trace '+col+'" d="'+p+'"/>';
+  const star=(x,y,col='purple')=>'<path class="ax-back-star '+col+'" d="M'+(x-4)+' '+y+'H'+(x+4)+'M'+x+' '+(y-4)+'V'+(y+4)+'"/>';
+  let bg='';
+  if(type==='signals'){
+   bg=aura(977,185,195,176,'Cyan')+aura(919,226,140,122,'Purple');
+   bg+=trace('M806 90Q968 13 1152 106','cyan')+trace('M802 280Q995 368 1154 274')+trace('M804 316Q990 390 1172 277','cyan');
+   bg+='<g class="ax-back-constellation">'+trace('M86 300 176 330 302 303 370 351 554 329 703 362 796 316','cyan')+trace('M80 304 101 223 177 194 225 234 306 206')+'</g>';
+   [[806,90],[1152,106],[804,316],[177,194],[302,303],[554,329]].forEach(([x,y],i)=>bg+=star(x,y,i%2?'cyan':'purple'));
+   bg+='<path class="ax-back-comet cyan" d="M806 90Q968 13 1152 106"/>';
+  }else if(type==='filter'){
+   bg=aura(645,180,203,176,'Purple')+aura(598,218,178,149,'Cyan');
+   bg+='<path class="ax-back-panel" d="M645 29 801 93v122c0 85-86 149-156 168-70-19-156-83-156-168V93Z"/>';
+   bg+=trace('M645 46 782 103v112c0 74-74 129-137 150','cyan');
+   [[463,85],[463,276],[816,98],[816,279]].forEach(([x,y],i)=>bg+='<path class="ax-back-hex '+(i%2?'cyan':'purple')+'" d="M'+x+' '+(y-18)+'l16 9v18l-16 9-16-9v-18Z"/>');
+   bg+=trace('M93 315H381L446 281H490')+trace('M794 282H840L889 314H1128','cyan');
+   bg+='<path class="ax-back-comet" d="M93 315H381L446 281H490"/>';
+  }else if(type==='control'){
+   bg=aura(310,203,219,181,'Purple')+aura(432,195,191,144,'Cyan');
+   bg+='<rect class="ax-back-panel" x="146" y="61" width="352" height="286" rx="35"/><rect class="ax-back-outline" x="164" y="79" width="316" height="250" rx="22"/>';
+   ['M82 116H156L210 151','M71 180H184','M92 298H179L223 258','M170 34V77L230 137','M252 20V105','M437 24V69L387 118','M475 152H541L590 103H796','M462 282H531L578 331H809','M226 286V361H92','M372 292V366H513'].forEach((p,i)=>bg+=trace(p,i%2?'cyan':'purple'));
+   [[82,116],[71,180],[92,298],[170,34],[252,20],[437,24],[796,103],[809,331],[92,361],[513,366]].forEach(([x,y],i)=>bg+='<rect class="ax-back-pad '+(i%2?'cyan':'purple')+'" x="'+(x-4)+'" y="'+(y-4)+'" width="8" height="8" rx="2"/>');
+   bg+='<path class="ax-back-comet cyan" d="M462 282H531L578 331H809"/>';
+  }else if(type==='orbit'){
+   bg=aura(624,185,240,179,'Purple')+aura(537,166,194,171,'Cyan');
+   ['M164 58 212 35 273 48 318 26 389 53','M165 340 231 367 298 345 347 370 399 340','M852 42 907 23 973 46 1040 27 1096 63','M860 346 920 370 978 346 1042 368 1110 332'].forEach((p,i)=>bg+=trace(p,i%2?'cyan':'purple'));
+   [[212,35],[273,48],[389,53],[231,367],[347,370],[907,23],[1040,27],[920,370],[1042,368]].forEach(([x,y],i)=>bg+=star(x,y,i%2?'cyan':'purple'));
+   for(let i=0;i<40;i++){const a=i*Math.PI/20;bg+='<path class="ax-back-tick" d="M'+(624+178*Math.cos(a))+' '+(185+178*Math.sin(a))+'L'+(624+183*Math.cos(a))+' '+(185+183*Math.sin(a))+'"/>'}
+  }else if(type==='gauge'){
+   bg=aura(620,190,208,175,'Purple')+aura(998,204,158,143,'Cyan');
+   bg+='<path class="ax-back-chart-fill" d="M144 296V239L177 255 215 216 257 228 304 164 349 124V296Z"/>'+trace('M144 239 177 255 215 216 257 228 304 164 349 124');
+   for(let y=84;y<=304;y+=44)bg+='<path class="ax-back-grid" d="M139 '+y+'H358"/>';
+   bg+='<circle class="ax-back-outline cyan" cx="998" cy="205" r="94"/><circle class="ax-back-ring cyan" cx="998" cy="205" r="112"/>';
+   for(let i=0;i<24;i++){const a=i*Math.PI/12;bg+='<path class="ax-back-tick" d="M'+(624+143*Math.cos(a))+' '+(190+143*Math.sin(a))+'L'+(624+150*Math.cos(a))+' '+(190+150*Math.sin(a))+'"/>'}
+   bg+=trace('M454 92V31H516M732 31H794V92M454 289V350H516M732 350H794V289');
+   bg+='<circle class="ax-back-cutout" cx="624" cy="190" r="105"/>';
+  }else if(type==='security'){
+   bg=aura(609,188,260,180,'Purple')+aura(269,178,165,154,'Cyan');
+   bg+='<rect class="ax-back-panel" x="471" y="35" width="280" height="306" rx="35"/>'+trace('M112 84V39H1130V85','cyan')+trace('M112 282V335H1130V282');
+   for(let x=488;x<=731;x+=27)bg+='<path class="ax-back-grid" d="M'+x+' 48V328"/>';
+   for(let y=50;y<=326;y+=27)bg+='<path class="ax-back-grid" d="M481 '+y+'H740"/>';
+   [[393,72],[831,76],[414,310],[842,309]].forEach(([x,y],i)=>bg+='<path class="ax-back-hex '+(i%2?'cyan':'purple')+'" d="M'+x+' '+(y-16)+'l14 8v16l-14 8-14-8v-16Z"/>');
+   bg+='<path class="ax-back-comet cyan" d="M112 84V39H1130V85"/>';
+  }else if(type==='finale'){
+   bg=aura(176,195,123,128,'Purple')+aura(707,190,383,160,'Cyan');
+   bg+='<circle class="ax-back-outline" cx="176" cy="195" r="76"/><circle class="ax-back-ring" cx="176" cy="195" r="93"/>';
+   bg+=trace('M78 309C359 350 857 347 1142 304','cyan')+trace('M90 332C381 367 847 368 1158 327')+trace('M301 61H414L456 93H639L679 61H816L857 94H1128');
+   [[302,61],[640,93],[816,61],[1128,94],[381,349],[847,347]].forEach(([x,y],i)=>bg+=star(x,y,i%2?'cyan':'purple'));
+   bg+='<path class="ax-back-comet cyan" d="M78 309C359 350 857 347 1142 304"/>';
+  }
+  return bgDefs+'<g class="ax-build ax-scene-backdrop" data-reveal="1" aria-hidden="true">'+bg+'</g>';
+ }
+
  function composition(type){
-  let g=defs;
+  let g=defs+backdrop(type);
   if(type==='journey'){
    g+=disc(225,185,85,'sources',1)+wave('M322 185C438 95 444 275 534 185',2)+disc(624,185,96,'brain',2)+wave('M732 185C842 95 855 275 928 185',3)+disc(1020,185,85,'crm',3);
   }else if(type==='signals'){
