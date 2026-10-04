@@ -105,9 +105,6 @@ body{isolation:isolate}#introBackground{object-fit:cover;z-index:0}#intro{z-inde
 <script>
 const videos=[document.getElementById('intro'),document.getElementById('messages')],fallback=document.getElementById('fallback');
 const introBackground=document.getElementById('introBackground');
-videos[0].addEventListener('seeked',()=>{if(scene===0&&Math.abs(introBackground.currentTime-videos[0].currentTime)>.04)introBackground.currentTime=videos[0].currentTime});
-videos[0].addEventListener('pause',()=>introBackground.pause());
-videos[0].addEventListener('play',()=>{if(scene===0)introBackground.play().catch(()=>{})});
 let scene=0,revision=0,inboxTimer=null,morphAnimation=null,arrivalTimers=[];
 const inboxScene=document.getElementById('inboxScene'),inboxPanel=document.getElementById('inboxPanel'),morphText=document.getElementById('morphText');
 const channels=['WhatsApp','Instagram','Facebook','Email','WhatsApp','Instagram','Facebook','Email','WhatsApp','Instagram'];
@@ -120,8 +117,25 @@ function receivePacket(index){if(scene!==2||matchMedia('(prefers-reduced-motion:
 function showInbox(){const run=revision,t=videos[1].currentTime,i=Math.min(9,Math.floor(t/4)),n=Math.floor(Math.max(0,Math.min(1,((t%4)-.45)/1.65))*messages[i].length);morphText.querySelector('strong').textContent='From '+channels[i];morphText.querySelector('span').textContent=messages[i].slice(0,n);inboxScene.classList.add('active');inboxScene.setAttribute('aria-hidden','false');const from=bubbleBounds(),to=panelBounds();applyBounds(to);const px=b=>Object.fromEntries(Object.entries(b).map(([k,v])=>[k,v+'px']));morphAnimation=inboxPanel.animate([{...px(from),borderRadius:'26px',background:'#f8f9fa',boxShadow:'0 0 0 #308bea00'},{...px(to),borderRadius:'26px',background:'#fff',boxShadow:'0 24px 90px #308bea16'}],{duration:1400,easing:'cubic-bezier(.22,1,.36,1)',fill:'forwards'});requestAnimationFrame(()=>{if(scene===2&&revision===run)inboxScene.classList.add('ready')});morphAnimation.finished.then(()=>{if(scene!==2||revision!==run)return;applyBounds(to);inboxPanel.style.background='#fff';inboxPanel.style.boxShadow='0 24px 90px #308bea16';morphAnimation.cancel();morphAnimation=null;for(let p=0;p<4;p++)arrivalTimers.push(setTimeout(()=>{if(revision===run)receivePacket(p)},p*420));let packet=0;inboxTimer=setInterval(()=>receivePacket(packet++%4),3200)}).catch(()=>{})}
 addEventListener('resize',()=>{if(scene!==2)return;if(morphAnimation){morphAnimation.finish()}applyBounds(panelBounds())});
 function report(){if(parent!==window)parent.postMessage({type:'allmessage-scene',scene},'*')}
-async function playCurrent(){const active=videos[scene],run=revision;try{if(scene===0){await Promise.all([introBackground.play(),active.play()])}else await active.play();if(run===revision){fallback.hidden=true;if(scene===0)requestAnimationFrame(()=>requestAnimationFrame(()=>{if(run!==revision||scene!==0)return;introBackground.classList.add('is-active');active.classList.add('is-active')}))}else{active.pause();introBackground.pause()}}catch{if(run===revision)fallback.hidden=false}}
-function setScene(n){revision++;stopReply();stopInbox();introBackground.pause();introBackground.classList.remove('is-active');videos.forEach(v=>{v.pause();v.classList.remove('is-active')});scene=n;fallback.hidden=true;report();if(scene===3){showReply();return}if(scene===2){showInbox();return}if(scene===0){introBackground.currentTime=0}videos[scene].currentTime=0;if(scene!==0)videos[scene].classList.add('is-active');playCurrent()}
+async function rewindMedia(video,run){
+ if(video.readyState<1)await new Promise((resolve,reject)=>{video.addEventListener('loadedmetadata',resolve,{once:true});video.addEventListener('error',()=>reject(new Error('Video unavailable')),{once:true})});
+ if(run!==revision)return;
+ if(video.currentTime>.008)await new Promise(resolve=>{video.addEventListener('seeked',resolve,{once:true});video.currentTime=0});
+}
+async function playCurrent(rewind=false){
+ const currentScene=scene,active=videos[currentScene],run=revision;
+ const media=currentScene===0?[introBackground,active]:[active];
+ try{
+  if(rewind===true)await Promise.all(media.map(video=>rewindMedia(video,run)));
+  if(run!==revision||currentScene!==scene)return;
+  // Show the selected frames independently of play() settling. Older playback
+  // promises never pause media owned by a newer scene revision.
+  media.forEach(video=>video.classList.add('is-active'));
+  await Promise.all(media.map(video=>video.play()));
+  if(run===revision)fallback.hidden=true;
+ }catch{if(run===revision)fallback.hidden=false}
+}
+function setScene(n){revision++;stopReply();stopInbox();introBackground.pause();introBackground.classList.remove('is-active');videos.forEach(v=>{v.pause();v.classList.remove('is-active')});scene=n;fallback.hidden=true;report();if(scene===3){showReply();return}if(scene===2){showInbox();return}playCurrent(true)}
 function forward(){if(scene<3)setScene(scene+1);else if(parent!==window)parent.postMessage({type:'allmessage-complete'},'*')}
 function backward(){if(scene>0)setScene(scene-1);else if(parent!==window)parent.postMessage({type:'allmessage-exit'},'*')}
 fallback.addEventListener('click',playCurrent);
