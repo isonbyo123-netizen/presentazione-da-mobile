@@ -9,7 +9,7 @@ body.architecture-active #architectureScene{visibility:hidden!important}
 .arch-header p{font-size:32px;line-height:1.2;margin:0;color:#765f9a}
 #architectureProgress{position:absolute;right:0;top:0;font-size:23px;color:#765f9a;font-variant-numeric:tabular-nums}
 .arch-nodes{position:absolute;left:80px;top:258px;display:grid;grid-template-columns:repeat(5,224px);gap:36px}
-.arch-node{height:304px;background:#ffffffed;border:2px solid #e2d8ef;border-radius:30px;position:relative;padding:26px 12px;text-align:center;box-shadow:0 12px 35px #5a317208;color:var(--node-color)}
+.arch-node{height:320px;background:#ffffffed;border:2px solid #e2d8ef;border-radius:30px;position:relative;padding:26px 12px;text-align:center;box-shadow:0 12px 35px #5a317208;color:var(--node-color)}
 .arch-node-number{position:absolute;top:15px;left:17px;font-size:22px;font-weight:650;opacity:.65}
 .arch-icon{width:88px;height:88px;margin:0 auto 20px}
 .arch-icon svg,.arch-capability svg,.arch-foundation svg,.arch-governance svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
