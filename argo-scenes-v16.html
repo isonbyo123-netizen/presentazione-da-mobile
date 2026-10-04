@@ -455,6 +455,7 @@ body.scene-three .source-orbit.docx{opacity:1}
  else{document.body.classList.remove('scene-two','scene-three','scene-four','logo-collapsed','is-morphing','morph-to-three')}
  index.textContent='0'+scene+' / 04';setTimeout(()=>next.disabled=false,900);
  }
+ addEventListener('message',e=>{if(e.source!==parent||e.data?.type!=='argo-start'||!e.data.last)return;scene=4;document.body.classList.remove('scene-two','scene-three','is-morphing','morph-to-three');document.body.classList.add('scene-four','logo-collapsed');index.textContent='04 / 04';next.disabled=false});
  next.addEventListener('click',advance);
     window.addEventListener('keydown',e=>{if(e.key==='ArrowRight'&&scene<=4&&!next.disabled){e.preventDefault();advance()}else if(e.key==='ArrowLeft'){e.preventDefault();retreat()}else if(e.key==='Escape'&&parent!==window){e.preventDefault();parent.postMessage({type:'argo-exit'},'*')}});
     facets.forEach(f=>f.el.setAttribute('transform','matrix(1 0 0 0 0 800)'));

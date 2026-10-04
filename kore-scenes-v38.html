@@ -74,7 +74,7 @@ html.kore-mobile .product-disc,html.kore-mobile #travelDoc{filter:none}
 html.kore-mobile .node-aura,html.kore-mobile .visitor-chat,html.kore-mobile .walk-arm,html.kore-mobile .engine-glint{animation:none}
 html.kore-mobile .case-detail{box-shadow:none}
 html.kore-mobile #world{will-change:transform;backface-visibility:hidden}
-</style></head><body tabindex="-1">
+</style><style>#koreFunnelBrand{position:fixed;right:6%;top:7%;width:min(230px,20vw);height:80px;object-fit:contain;object-position:right top;z-index:25;pointer-events:none}#koreFunnelBrand[hidden]{display:none}body.journey #koreMorphBrand{visibility:hidden}</style></head><body tabindex="-1">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="chat" viewBox="0 0 80 70"><path d="M8 8h64v42H32L15 64V50H8z" fill="white" stroke="currentColor" stroke-width="3"/><path d="M22 22h36M22 34h25" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
 <symbol id="document" viewBox="0 0 80 100"><path d="M10 6h40l22 22v64H10zM50 6v23h22" fill="white" stroke="#6315e8" stroke-width="3" stroke-linejoin="round"/><path d="M24 44h34M24 58h34M24 72h22" stroke="#b59ed6" stroke-width="3"/><path class="document-check" d="M42 79l9 8 15-18" fill="none" stroke="#209b68" stroke-width="3"/></symbol>
@@ -169,6 +169,7 @@ function startAdviserGait(animation){
 }
 
 function render(previous=step){showCase();
+let funnelBrand=document.getElementById('koreFunnelBrand');if(!funnelBrand){funnelBrand=document.createElement('img');funnelBrand.id='koreFunnelBrand';funnelBrand.src='kore-official.png';funnelBrand.alt='KORE';document.body.appendChild(funnelBrand)}funnelBrand.hidden=step===0;
 clearTimeout(docWalkTimer);docWalk?.cancel();cancelAnimationFrame(adviserGaitFrame);adviserGaitFrame=0;poseAdviser(null);
 document.body.classList.toggle('journey',step>0);document.body.classList.toggle('document-stage',step>=2);document.body.classList.toggle('architecture-stage',step===7);
 document.body.classList.toggle('validated-stage',step>=4);
@@ -184,8 +185,12 @@ function prepareKoreMorph(){
  const video=aeVideos[0];if(video.readyState<2)return null;
  const frame=document.createElement('canvas'),ratio=Math.min(1,(koreMobile?960:1920)/video.videoWidth);
  frame.width=Math.round(video.videoWidth*ratio);frame.height=Math.round(video.videoHeight*ratio);
- const ctx=frame.getContext('2d',{willReadFrequently:true});ctx.drawImage(video,0,0,frame.width,frame.height);
- const pixels=ctx.getImageData(0,0,frame.width,frame.height),d=pixels.data;
+ const ctx=frame.getContext('2d',{willReadFrequently:true});let pixels;
+ // Local file origins can forbid reading video pixels. This optional effect
+ // must never prevent the video from unlocking navigation or the funnel.
+ try{ctx.drawImage(video,0,0,frame.width,frame.height);pixels=ctx.getImageData(0,0,frame.width,frame.height)}
+ catch{frame.width=frame.height=1;return null}
+ const d=pixels.data;
  let minX=frame.width,minY=frame.height,maxX=0,maxY=0;
  // Extract the already-rendered logo once. No live masks or per-frame drawing.
  for(let y=0;y<frame.height;y++)for(let x=0;x<frame.width;x++){
@@ -231,7 +236,7 @@ async function enterWorkflow(){
  });
  const flows=[...document.querySelectorAll('#world>path.flow')];
  flows.forEach((path,i)=>animations.push(path.animate([{opacity:0},{opacity:.6}],{duration:700,delay:1150+i*150,fill:'both'})));
- await Promise.all(animations.map(a=>a.finished));
+ await Promise.allSettled(animations.map(a=>a.finished));
  if(cached){const brand=cached.logo,scale=destinationWidth/brand.width;brand.style.transform='translate('+destinationX+'px,'+destinationY+'px) scale('+scale+')';brand.style.opacity='1';brand.style.willChange='auto';}
  intro.style.visibility='hidden';world.style.transition='';document.body.classList.remove('kore-diving');
  animations.forEach(a=>a.cancel());busy=false;
@@ -239,7 +244,7 @@ async function enterWorkflow(){
 function advance(){if(busy)return;if(step===0){if(introPhase<2)showAEPhase(introPhase+1);else enterWorkflow();return}if(step===6){parent.postMessage({type:'kore-complete'},'*');return}const previous=step;step++;render(previous);busy=true;setTimeout(()=>busy=false,step===3?2850:2250)}
 function retreat(){if(busy)return;if(step===0){parent.postMessage({type:'kore-exit'},'*');return}const previous=step;step--;render(previous);if(step===0){document.getElementById('koreMorphBrand')?.remove();intro.getAnimations().forEach(a=>a.cancel());intro.style.visibility='visible';intro.style.transform='none';showAEPhase(2,true);return}busy=true;setTimeout(()=>busy=false,step===0?1200:2250)}
 addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();e.stopImmediatePropagation();if(!e.repeat)(e.key==='ArrowRight'?advance:retreat)()}},{capture:true});
-addEventListener('message',e=>{if(e.source!==parent)return;if(e.data?.type==='presentation-next')advance();if(e.data?.type==='presentation-back')retreat();if(e.data?.type==='kore-start')beginKoreAE()});
+addEventListener('message',e=>{if(e.source!==parent)return;if(e.data?.type==='presentation-next')advance();if(e.data?.type==='presentation-back')retreat();if(e.data?.type==='kore-start'){if(e.data.last){koreStarted=true;pauseAE();step=6;introPhase=2;render(6);busy=false}else beginKoreAE()}});
 addEventListener('wheel',e=>e.preventDefault(),{passive:false});window.animationState=()=>({stage:step===0?introPhase:step+2,workflowStep:step,phase:introPhase,source:step===0?'after-effects-4k-60':'native-svg-funnel',running:step===0&&!aeVideos[0].paused,currentTime:step===0?aeVideos[0].currentTime:null,drawError:null});
 Promise.all([aeMediaReady(aeVideos[0]),document.fonts.ready,...[...document.querySelectorAll('image')].map(el=>{const image=new Image();image.src=el.getAttribute('href');return image.decode().catch(()=>{})})]).then(()=>{parent.postMessage({type:'kore-ready'},'*');if(parent===window)beginKoreAE()});
 </script><div id="korePaperContinuity" aria-hidden="true"></div></body></html>
