@@ -1,3 +1,87 @@
 <!doctype html>
-<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Presentazione da PC</title><style>html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#fff}iframe{width:100%;height:100%;border:0;display:block}</style></head><body><iframe id="deck" src="presentazione.html?v=video-6" title="Presentazione da PC — One Tech" allow="autoplay; fullscreen" allowfullscreen></iframe><script>const frame=document.getElementById("deck");frame.addEventListener("load",()=>frame.contentWindow.focus());window.addEventListener("keydown",e=>{if(e.key==="ArrowRight"||e.key==="ArrowLeft"){e.preventDefault();const f=frame.contentWindow[e.key==="ArrowRight"?"forward":"backward"];if(typeof f==="function")f()}});</script><script>const architectureMode=new URLSearchParams(location.search).get('architecture');if(['none','extended'].includes(architectureMode)){const frame=document.getElementById('deck');const url=new URL(frame.getAttribute('src'),location.href);url.searchParams.set('architecture',architectureMode);frame.src=url.href;}</script></body></html>
-
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Presentazione da PC — One Tech</title>
+<style>
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#fff;font-family:Arial,Helvetica,sans-serif;color:#262033}
+body{display:flex;flex-direction:column;height:100dvh}
+iframe{width:100%;flex:1;min-height:0;border:0;display:block}
+.viewer-controls{flex:none;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 28px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #e8e0f4;background:#fff;z-index:1}
+.viewer-help{margin:0;line-height:1.45;font-size:14px;color:#71677e}
+.viewer-help strong{display:block;color:#352647;font-size:15px;margin-bottom:2px}
+.viewer-actions{display:flex;gap:10px;flex-shrink:0}
+button{min-height:46px;border:1px solid #ded4ee;border-radius:12px;padding:0 20px;background:#fff;color:#4e3a65;font:600 15px Arial,Helvetica,sans-serif;cursor:pointer;touch-action:manipulation}
+button.primary{background:#7048ff;border-color:#7048ff;color:#fff;min-width:210px}
+button:hover:not(:disabled){background:#f5f0ff}
+button.primary:hover:not(:disabled){background:#6037ee}
+button:focus-visible{outline:3px solid #b59aff;outline-offset:3px}
+button:disabled{opacity:.45;cursor:default}
+@media(max-width:640px){.viewer-controls{padding:10px 14px calc(10px + env(safe-area-inset-bottom));gap:8px;flex-direction:column}.viewer-help{text-align:center;font-size:12px}.viewer-help strong{font-size:13px}.viewer-actions{width:100%;gap:8px}button{padding:0 12px;font-size:14px}button.primary{min-width:0;flex:1}}
+@media(max-height:480px) and (min-width:641px){.viewer-controls{padding:8px 16px}.viewer-help{font-size:12px}.viewer-help strong{font-size:13px}button{min-height:40px}}
+</style>
+</head>
+<body>
+<iframe id="deck" src="presentazione.html?v=video-6" title="Presentazione da PC — One Tech" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<nav class="viewer-controls" aria-label="Comandi della presentazione">
+<p class="viewer-help" id="viewerHelp" aria-live="polite"><strong>Scopri i nostri lavori</strong>Clicca su “Avvia la presentazione” per iniziare.</p>
+<div class="viewer-actions">
+<button id="viewerBack" type="button" disabled aria-controls="deck"><span aria-hidden="true">← </span>Indietro</button>
+<button id="viewerNext" type="button" class="primary" disabled aria-controls="deck">Caricamento…</button>
+</div>
+</nav>
+<script>
+const frame=document.getElementById('deck');
+const backButton=document.getElementById('viewerBack');
+const nextButton=document.getElementById('viewerNext');
+const help=document.getElementById('viewerHelp');
+const architectureMode=new URLSearchParams(location.search).get('architecture');
+if(['none','extended'].includes(architectureMode)){
+ const url=new URL(frame.getAttribute('src'),location.href);
+ url.searchParams.set('architecture',architectureMode);frame.src=url.href;
+}
+let ready=false,observer;
+function setHelp(title,message){
+ const key=title+'|'+message;if(help.dataset.message===key)return;
+ help.dataset.message=key;const strong=document.createElement('strong');strong.textContent=title;
+ help.replaceChildren(strong,document.createTextNode(message));
+}
+function syncControls(){
+ if(!ready)return;
+ const doc=frame.contentDocument;
+ const scene=doc.getElementById('openingVideoScene');
+ const video=doc.getElementById('openingVideo');
+ const intro=scene&&!scene.hidden&&!scene.classList.contains('finishing');
+ const playing=intro&&scene.classList.contains('playing');
+ nextButton.disabled=false;
+ backButton.disabled=!!intro&&!playing&&!(video&&video.currentTime>0);
+ nextButton.textContent=intro?(playing?'Salta intro →':'Avvia la presentazione →'):'Avanti →';
+ if(intro)setHelp('Scopri i nostri lavori',playing?'Il video è in riproduzione. Puoi guardarlo o saltare l’intro.':'Clicca su “Avvia la presentazione” per iniziare.');
+ else setHelp('Esplora la presentazione','Usa Avanti e Indietro per vedere i nostri lavori. Puoi usare anche le frecce della tastiera.');
+}
+function navigate(direction){
+ if(!ready)return;
+ const win=frame.contentWindow;
+ const scene=frame.contentDocument.getElementById('openingVideoScene');
+ if(direction==='forward'&&scene&&!scene.hidden&&scene.classList.contains('playing')&&typeof win.finishOpeningVideo==='function')win.finishOpeningVideo();
+ else if(typeof win[direction]==='function')win[direction]();
+ syncControls();
+}
+frame.addEventListener('load',()=>{
+ observer?.disconnect();
+ ready=typeof frame.contentWindow.forward==='function';
+ if(!ready){nextButton.disabled=true;backButton.disabled=true;nextButton.textContent='Non disponibile';setHelp('Presentazione non caricata','Ricarica la pagina per riprovare.');return}
+ observer=new MutationObserver(syncControls);
+ observer.observe(frame.contentDocument.body,{subtree:true,attributes:true,attributeFilter:['class','hidden']});
+ syncControls();
+});
+nextButton.addEventListener('click',()=>navigate('forward'));
+backButton.addEventListener('click',()=>navigate('backward'));
+window.addEventListener('keydown',e=>{
+ if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();if(!e.repeat)navigate(e.key==='ArrowRight'?'forward':'backward')}
+});
+</script>
+</body>
+</html>
